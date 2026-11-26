@@ -20,12 +20,20 @@ shows its graph and candidate checks, and pauses for the reader. The reader can
 edit formulas and joint premises, add an explicit assumption, request one revision,
 compare saved versions, and export the resulting review.
 
-![New argument workspace](workbench/docs/assets/start.png)
+### Example: Quine's Waverley description
 
-The workspace opens with empty source and question fields. “Try an example”
-loads an authored reading only when selected; a configured model can reconstruct
-arguments from the reader's own passage and question. The
-[Quine example](workbench/docs/assets/review.png) shows the graph and formula editor.
+![Quine example: source passage, argument graph and formula editor](workbench/docs/assets/review.png)
+
+The example examines whether denying a unique author means no author, or also
+permits multiple authors. The source passage stays on the left; the editable
+premises, conclusion and formula controls are on the right. Selecting a graph
+node opens its formula and joint dependencies.
+
+New reviews open with empty source and question fields. This optional offline
+example supplies an authored reconstruction and uses the application's normal
+editing, storage and logic-checking workflow. See the
+[offline instructions](#run-an-offline-example) to load it, or view the
+[blank starting screen](workbench/docs/assets/start.png).
 
 ```mermaid
 flowchart LR
@@ -56,8 +64,9 @@ export PYTHONPATH="$PWD/workbench:$PWD/argscope:$PWD/falsifylab:$PWD/sourcelens"
   --port 8767 --open-browser
 ```
 
-Choose Quine's negative-description example or Chalmers's displayed
-intelligence-explosion argument, inspect the reconstruction, and record a review.
+Open “Try an example,” select Quine's negative-description example or Chalmers's
+displayed intelligence-explosion argument, then choose “Use example” and
+“Run demo review.” Inspect the reconstruction and record a review.
 The service starts an isolated copy of the bundled KV and retains its AOF under
 the selected application data directory. Stop it with Control+C.
 
