@@ -1,0 +1,32 @@
+{
+  "schema_version": "research-case-v1",
+  "source": {
+    "key": "valid-conditional-control",
+    "version": "v1",
+    "kind": "authored_control",
+    "text": "Assume that p implies q and that p holds. Then q follows.",
+    "locator": "Project-authored control, paragraph 1",
+    "reference_url": null
+  },
+  "reading": {
+    "id": "control-reading",
+    "speaker": "Project control author",
+    "commitment": "user_assumption",
+    "summary": "Project-authored modus ponens control.",
+    "review": {
+      "status": "self_reviewed",
+      "reviewer": "fixture author",
+      "rationale": "Formal control; no interpretation of a classic author is asserted."
+    }
+  },
+  "claim": {
+    "id": "modus-ponens-control",
+    "origin": "user_defined",
+    "semantics": "classical-propositional-v1",
+    "premises": [
+      "p -> q",
+      "p"
+    ],
+    "conclusion": "q"
+  }
+}

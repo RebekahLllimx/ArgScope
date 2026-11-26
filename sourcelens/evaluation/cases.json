@@ -1,0 +1,14 @@
+[
+  {"id":"dev-logging","split":"development","question":"Why must log records reach durable storage before data pages?","relevant":[["recovery","Write-ahead ordering"]]},
+  {"id":"dev-idempotency","split":"development","question":"How does an idempotency key reject conflicting request parameters?","relevant":[["workflows","Idempotent effects"]]},
+  {"id":"dev-fusion","split":"development","question":"Why combine BM25 and cosine rankings with reciprocal rank fusion?","relevant":[["retrieval","Rank fusion"]]},
+  {"id":"dev-no-answer","split":"development","question":"What is the boiling point of titanium?","relevant":[]},
+  {"id":"test-ack","split":"test","question":"Can an acknowledged write be lost before a log flush?","relevant":[["recovery","Acknowledgement and flushing"]]},
+  {"id":"test-checkpoint","split":"test","question":"How does a checkpoint reduce recovery replay?","relevant":[["recovery","Checkpoints"]]},
+  {"id":"test-replay","split":"test","question":"Does a saved workflow checkpoint make an external payment happen exactly once?","relevant":[["workflows","Checkpoints and replay"]]},
+  {"id":"test-transaction","split":"test","question":"Why commit a progress event and checkpoint in the same transaction?","relevant":[["workflows","Atomic checkpoints"]]},
+  {"id":"test-retry","split":"test","question":"Should malformed documents be retried after permanent input errors?","relevant":[["workflows","Retry boundaries"]]},
+  {"id":"test-version","split":"test","question":"How should old citations behave after a document version changes?","relevant":[["retrieval","Versioned evidence"]]},
+  {"id":"test-citation","split":"test","question":"Does a verified quoted passage prove that a source claim is true?","relevant":[["retrieval","Citation verification"]]},
+  {"id":"test-no-answer","split":"test","question":"How many moons orbit Neptune?","relevant":[]}
+]

@@ -1,0 +1,22 @@
+.venv/
+.local/
+node_modules/
+__pycache__/
+.DS_Store
+/WORKING.md
+/TECHNICAL_ROUTE_COMPARISON.md
+/TRANSFER_READY.md
+/PROJECT_PLAN.md
+
+# Local runtime/configuration, including the bare CLI data directory.
+/review-data/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.py[cod]
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example

@@ -1,0 +1,15 @@
+{
+  "grid_size": 16,
+  "steps": 60,
+  "intervention_time": 30,
+  "final_window": 15,
+  "temptation": [1.1, 1.95],
+  "penalty": [0.05, 0.5],
+  "budget": 6,
+  "discovery_seeds": [11, 12, 13],
+  "confirmation_seeds": [101, 102, 103, 104, 105, 106, 107, 108],
+  "minimum_effect": 0.05,
+  "search_seed": 42,
+  "family_alpha": 0.05,
+  "methods": ["grid", "random"]
+}

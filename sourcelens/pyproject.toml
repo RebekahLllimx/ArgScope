@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sourcelens"
+version = "0.1.0"
+description = "Versioned document research with inspectable evidence and resumable workflows"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "langgraph>=1.0,<2",
+  "python-multipart>=0.0.18,<1",
+  "pypdf>=5,<7",
+  "scikit-learn>=1.2,<2",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7,<9", "pytest-cov>=4,<8", "httpx>=0.27,<1"]
+
+[project.scripts]
+sourcelens = "sourcelens.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["sourcelens*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,13 @@
+{
+  "question": "Does the conclusion follow from these two premises?",
+  "notes": "Project-authored API control, not an original-paper excerpt.",
+  "sources": [
+    {
+      "id": "main",
+      "title": "Authored implication control",
+      "version": "v1",
+      "kind": "authored_control",
+      "text": "If p then q. p holds. Therefore q holds."
+    }
+  ]
+}

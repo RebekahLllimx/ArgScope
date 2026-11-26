@@ -1,0 +1,20 @@
+{
+  "schema": "argscope-vendored-kv-v1",
+  "captured_on": "2026-11-26",
+  "origin": "User-owned desktop kv_server project; read-only snapshot, original retained",
+  "role": "Local managed KV runtime; no external data or conversation history copied",
+  "files": {
+    "server.py": "63cb08a656b18250a96dba55dfb054850fd855ddd07c4082b46bdd09763f6685",
+    "store.py": "e6bd72ffadeccd3b6d304f75663a4acaeba67e2a00880e014f4ee3be15fe719c",
+    "commands.py": "dd9261b9974b99b86cdb230f6c44c4b71840ec773a4eefd300ee9c1d182091d5",
+    "resp.py": "42fb7a1355df0fa0e75d21de6ac170c7ad92303940c424a0fd23eea249229042",
+    "response.py": "e0b0a82d5fc1d5de7c1d3bf64483d60a8f07b9e32b22329fa3b734870293aa78",
+    "aof.py": "deaa3ef23c5fbfa46a8498ed748cf43b48caef79adf4f4ca8e1b0feee4a00716",
+    "main.py": "c15715b2db4d89706aebf80bcd2150a53a7e6e825351e3721da0bbe48c285670",
+    "aof_lock.py": "4fd7eecd59df6d64892285a9c582e02017b3100bf5cf20a8628bc02283272078",
+    "rewrite_aof.py": "edecbb6bc96a7af1db70494e2f66002d1072517d419ac0ab0344ae1f7588f355"
+  },
+  "revision": "offline-aof-rewrite-v1-english",
+  "update_reason": "English source comments and docstrings; executable AST unchanged",
+  "previous_manifest_sha256": "c23a136c382cfafe7746b105cbe86c18784f923e567d5152947a4f66ffb5b533"
+}

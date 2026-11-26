@@ -1,0 +1,1086 @@
+{
+  "id": "LCP020",
+  "observed_on": "2026-11-24",
+  "provider": "official Codex CLI with supported ChatGPT login",
+  "client_version": "0.171.0-alpha.13",
+  "model_alias": "gpt-6.1-sol",
+  "immutable_model_revision": null,
+  "provenance": {
+    "schema": "argscope-experiment-v1",
+    "started_utc": "2026-11-24T11:46:38.246084+00:00",
+    "source": {
+      "policy": "argscope-source-manifest-v4",
+      "files": {
+        "argscope/argscope/__init__.py": "b9c4e0717ec5e972821c992f103391de504465682036d70e8b3e40557330b28b",
+        "argscope/argscope/__main__.py": "7c26df92e4c92a67881e867469873d56ab19b443c1c61eea43eb8e33c6c7e135",
+        "argscope/argscope/graph.py": "8a670ec889b0d8cee38ff7aa6641b8afe60c077043edd6bff1026ee7df0f096a",
+        "argscope/argscope/logic.py": "ed6a11fc743acfef2d6b78639b19759ba59cf6024bb0279de9efab7c8b710f49",
+        "argscope/argscope/sat.py": "daa70d0542a90b0988e2f005e2a8d296ddb2c9fdb075d0c8fcd4f8dfa508044d",
+        "falsifylab/falsifylab/__init__.py": "f0cdffd013554edcf66f7473b2232aeae93c6df766af5abc142b26ce4ca6a70c",
+        "falsifylab/falsifylab/__main__.py": "c3af67d0b097ffb87617f1cc079d64ab40e7d0261b90a00ddedf0fe76f0dd8e3",
+        "falsifylab/falsifylab/experiment.py": "4baf4a04c3b05a78bc73cdad12930bfae8c5844be2e0e084908aa3cd2b1e6af9",
+        "falsifylab/falsifylab/model.py": "7dc411bfc1c84284aa0527dd1c4cb7e5ab437b39b2c2c8274bfac181ad418189",
+        "falsifylab/falsifylab/reader.py": "8a3c942494ead422d237c4ffbaf954c46086c3c269089e9d19060b14ce1022d5",
+        "falsifylab/falsifylab/records.py": "735350d99e5d88dddf8057618b871020317713cbcbaedc434fd14973ba588d39",
+        "falsifylab/falsifylab/result_store.py": "2d48558051827934be0b4703d529eb26f1915fd4bc781659ebb7de118a082fb6",
+        "falsifylab/falsifylab/search.py": "aa3a15b58abd393a8cea4a7d579e3ccabea144963cc0c69f108ef58a7f989e6b",
+        "falsifylab/falsifylab/trajectories.py": "fd7f4b1c4a8864cdbdf396a676cb7ee039263f10ab9b1ffc8d0d86208de41d29",
+        "sourcelens/sourcelens/__init__.py": "8154d61030a420ffde853523d499a04f97e905b7ab1048955a1072b4add8a73a",
+        "sourcelens/sourcelens/__main__.py": "49f28f6c73f5d43dfd8047744e4040dd2c253a675106ccfa92b2f7d1d4572ffc",
+        "sourcelens/sourcelens/api.py": "c8d3f6939fdb024559d0cae73cdf3e225725b83562339d87add24ce44805702d",
+        "sourcelens/sourcelens/documents.py": "856d0c029931ffa87f5b9b16add857da043a626b1d6d8e18f9894352d0f949bb",
+        "sourcelens/sourcelens/evaluate.py": "a88758f81970b8239597606ea7ff27b9ee264b5fd9a789721784da4484767630",
+        "sourcelens/sourcelens/retrieval.py": "ea4b715668a0ec437e5bd1b1231dc8c8020d85f981cdadac1a9a2fdf4dd8f4ff",
+        "sourcelens/sourcelens/store.py": "57702dfb07164f58fe3b7ee8ceadf8920aa8f81a11f3cfb7c4810131681e6e9b",
+        "sourcelens/sourcelens/workflow.py": "20fa657da5341b6dea23511b38b46a9d6db6c1110a6539f852ec19f8d7ab5072",
+        "workbench/workbench/__init__.py": "503ae2769a5a5b14388fa8a95f61a6c0349f8ba325680a6998894c89b0de6ad4",
+        "workbench/workbench/__main__.py": "5c7847738440c81da3928b265ceefcef41336a782611a3bacae9a4d62a0d600f",
+        "workbench/workbench/contracts.py": "34d02db0795df32c38798a78cdf073d17f823fb06db24b8d6b35313ab0e0fbca",
+        "workbench/workbench/history.py": "aed35e121fbdce81231be8e397e177977e575f6356e464ed45985f60a3fc36ec",
+        "workbench/workbench/open_running.py": "bf98ff6b62691c1209c84eb94b5d5339a9ee084643dc4eec95002576527f0854",
+        "workbench/workbench/prototype.py": "d5aeb2bd444bacfa538187efae716c6e854c992d428073a7f6d1dcfcd26e5103",
+        "workbench/workbench/reconstruction.py": "40ab607f8631e1cc91fab4471c70a9576b4dbde2dc89f534646b4a6d2a56e733",
+        "workbench/workbench/report.py": "3e3551557ff7974f5d81d7e4d9f0747e147bb65e415ffa4cd0f68bf4bf5708d3",
+        "workbench/workbench/review/__init__.py": "be95e2b9be0eaca1b6945c8e74af8b5995e12686ef4d53ab1d02585c30c4adfb",
+        "workbench/workbench/review/bailian.py": "9b9985b6f19caee1759864e0c2387c98f6530d01f39304ae9c559f6cefb229d8",
+        "workbench/workbench/review/codex_provider.py": "d6976eff4f1d7db7a7fa61e7377e968fa6c3ddfc3415449c14577fc27360db28",
+        "workbench/workbench/review/first_order.py": "c44ddf422355b7d3b76cc500c948048892bf9aefc9f13f73a81980f89a0dd83b",
+        "workbench/workbench/review/graph.py": "b74e8e1763264745d726a6e2eec446a5e9525cc33dc81abea234434ca7911ee3",
+        "workbench/workbench/review/paper_examples.py": "1f21405eddca21999b435d545211b32bcabfa55c783a300abc1633a501ca77bc",
+        "workbench/workbench/review/provenance.py": "65ae614ebf8077439d7cbb5237912a53bb95307fd4f3a7395ed380ab5411bda7",
+        "workbench/workbench/review/providers.py": "9624ec4880db31cdbec2ebfc15122fac960397f2fb58bac852c152c8e2136bfb",
+        "workbench/workbench/review/render.py": "b76a43a3a9a1bff6b0b97eca5ccb6c2bb49cffa751e846532dc23528e4152c81",
+        "workbench/workbench/review/research_examples.py": "9f03f449585223c784cdf5478ed3a9d8bdb2f8188aaf504590e20552ce05b91d",
+        "workbench/workbench/review/schemas.py": "ba84bcda3b05b86c9c52f3cce55720ff0cbb8a0ec4c80921d846e58d936d37b3",
+        "workbench/workbench/review/shared.py": "682a876efd89a9f9a1be6cee226aa0157fe196d804fe1933767a06677605522c",
+        "workbench/workbench/review/store.py": "29524b73d458134e4798a3f1bdd3ba4336f9158d4cc0e61ad82be6560dd30ba3",
+        "workbench/workbench/review/tool_worker.py": "f2d7cf3d00f3cb34323da6741bbaa1280d5013b67dc6e9d139059c25ba8b2de3",
+        "workbench/workbench/review/versions.py": "4d16c9ec474dbf5796853fdb3fb73ebd25799add5b1c127a3d236e35aa611314",
+        "workbench/workbench/review_app.py": "33ec172ae11d1854a8b2fe38d36c3dea45f68186208c4f9c7fb82c06597ec025",
+        "workbench/workbench/review_web/index.html": "c33a935b3d8e0c3ab8af300c48ac4b58d2c8005c5d10fe5a12f5d1dd299bd4b5",
+        "workbench/workbench/review_web/review-assets/index-CvFrRQFu.css": "68153d64e2627983f018181c33cb6663d9d30eacc7132015cb8eae92f8e75a44",
+        "workbench/workbench/review_web/review-assets/index-DOyANkTs.js": "d1565e9e3400abf1095f50341d3f45e5f06cf40b08feec92ec0b5fb0b694bf7c",
+        "workbench/workbench/runner.py": "c402ed020aba4fbd779cea14f6a45b76789dbcde2f526b173663f6572f1255b7",
+        "workbench/workbench/semantic_ir.py": "e184c781d41d27bc88a8b0e58478bbd9dc86e4bd8d5a303198918017f73189e5",
+        "workbench/workbench/sources.py": "8601643a00eff081ea01115dcdf173d737f5dc2e45796dd97c1f96f672a69a81",
+        "workbench/workbench/version.py": "0be6461ec735545341fe36a5c346850625384a2c634e08ade3e75012a4d07055",
+        "workbench/workbench/web/app.js": "ce498b2b3e2cd28a70c7cf5be9e395b85f8c857e07096d726cfd9b7fefb376b5",
+        "workbench/workbench/web/index.html": "be63265f670123a28c4c6b9587c2774e0f150c9ee79ca7624fa631b44e06e57e",
+        "workbench/workbench/web/style.css": "ee7e177746e7999c4d0dfc1ca715ecb6fb76c473ff259e35a448d79a8efb067a",
+        "workbench/tools/build_prototype.py": "bbc3ca13eada6e597ae70c1ac5b8fef98ae75efb0adcbede57d317eefbdd0985",
+        "workbench/tools/build_review_mvp.py": "06fcbb7b9aa2921bc0bef62d45edcccbb844bd32b19158a04a4d7d3e6f44a34c",
+        "workbench/tools/check_reference_cases.py": "a2d309406a1d1186912e7b82d29ada908c92b2bf7343f55bef8c78f92be85fa3",
+        "workbench/tools/check_release.py": "d8a7ad3312047e9a8c983b94b39aa2b1e2a5ad4d38b75d857912c4c23783cffa",
+        "workbench/tools/evaluate_solver.py": "e87f48a64e492383138e5da116bad87d932e6f851351da730d32c6ef0dc8abfb",
+        "workbench/tools/measure_tool_reuse.py": "02730144e4160456e33e7a60345042bb016a3295bffad0ea05296f6fc04bf3f3",
+        "workbench/tools/run_feedback_trial.py": "4ef2dc51b526066882ca3dd610109152eb269e8285372ff30d1f4be189d0975a",
+        "workbench/tools/run_pilot.py": "33d00b9cc5f99743ecc2fa3d3ef9e24227355872794aea864a3db15e9d57df81",
+        "workbench/tools/validate_paper_workflows.py": "a1b3600731f0133ca9257f813bd38321ab1d6073b8f34219e85d121e7a94895f",
+        "workbench/tools/verify_delivery.py": "ae32c2a5d6223a30643c161a3ebcc827070693c92d3b5fe37cb768c72f70ebb2",
+        "workbench/tools/verify_feedback_ui.py": "ec4ca9521c97e4d072fc49fca69a5b3f3c9f308265c0bb253fa1ae5aa52705fd",
+        "workbench/tools/verify_kv_delivery.py": "e9494ad205a8e64afded94d852358dec90a1a0e2d86ed2a0487931b5b9ef8e47",
+        "workbench/tools/verify_paper_browser.py": "b2b503687d4ca29cb5e858bf34f2cd0b8db2ecab31328f0e897972a18c50ffd2",
+        "workbench/tools/verify_release.py": "1511642e9c902d78c919dd074a7d790c17b6fcad415b6fcf09e33cdbea133ce7",
+        "workbench/tools/verify_review_mvp.py": "cb4ece44824cd9a8729dd6149c213a3dc987151259a5c1d3e56b78ab85886cd0",
+        "workbench/tests/browser_feedback.cjs": "95ddfd295cea91095fd4f38197a91bae2ab9cab03910c3d2593cf2d7abd6dc1f",
+        "workbench/tests/browser_first_order.cjs": "5d51baea1fd3acc1462299c5de03c92f317f8e84d106f92ca8b94fdbdf547dc0",
+        "workbench/tests/browser_prototype.cjs": "ebcd0855669b8a23407f80656db99acf590af5c51ff6282923005bebd511b20e",
+        "workbench/tests/browser_report.cjs": "6c2089f02a9915739174614fa608266b90823e61d50524b24aa1ee371d2b0177",
+        "workbench/tests/browser_review_mvp.cjs": "650b9084e93a261e87861ea344598ee8c769ab3abdad5853084e2c19b06f1f8a",
+        "workbench/tests/browser_trajectories.cjs": "4cac98cf4d29568fa70ebf59dbbc5a31aff9651c3efb15c5135713c0c921249b",
+        "workbench/tests/test_bailian.py": "00b6af0c7f7bcb813b3f9275d91824a651f184616258da56bae2393a83f14748",
+        "workbench/tests/test_codex_provider.py": "b2c48f73297e957af8499144a9a6bc66b599537aeab5454133886db55698d116",
+        "workbench/tests/test_feedback_versions.py": "b29700a96da25a70e3f01646474361a1436c5a04a6f54a72e770092661482fde",
+        "workbench/tests/test_first_order.py": "e4bf131f493e15adc7a7a892700d9830514877c4c583a5a3bba2aeb1f6e67cd8",
+        "workbench/tests/test_first_order_integration.py": "0dc6393e9c145b2450249c48c605999d3bdef111cfa300e254c9c47151cc94a9",
+        "workbench/tests/test_paper_cases.py": "367baf2167fd5cae7cc1e59316b06716f06889a440becf852a856efc0ff8ddcb",
+        "workbench/tests/test_pilot.py": "a2f2a5ee23e343b5754ecae35980a2ea62f11ead4708f7d368611bc2669eda87",
+        "workbench/tests/test_prototype.py": "ad9e62c4b53d0c804f4c5b18c51b4405f647ed093df63a44271c1bda72cce19b",
+        "workbench/tests/test_reconstruction.py": "d26a4368a3092f8d73f687ba6b27e99b537e09f655c2f00e178cc94b4c2dc8dc",
+        "workbench/tests/test_release.py": "2edc4b0cc5dc6e7b985650db0f7d0676bf481f0e2777ab6da681602a38940db9",
+        "workbench/tests/test_research.py": "a5b8981e690027b141f48487128a85546f70aceeca8d9c28cacf20f77436c70e",
+        "workbench/tests/test_review_mvp.py": "19bc5e5554c53aba87c9bfa35378758c7ffad2204f5815f99296c6d93cdaa687",
+        "workbench/tests/test_semantics.py": "eb8b253399f3e5ef7f7df5b2630823704da9632a4f1eb206389623f3e1655412",
+        "workbench/tests/test_sources.py": "1fcf15fa3177d749ee123d9144d6b8838c690f4f8c5111cc6c028d754c2e5361",
+        "workbench/tests/test_storage_expiration.py": "c4ce4c4800a1bc6018a0680244aca953c8d061be6515793978400ebfa9eec74d",
+        "workbench/review_web/src/main.jsx": "3b5bf633860d129504cae6d310d3cf929c79167fc07063f688cac8ee141d40d4",
+        "workbench/review_web/src/style.css": "24c1bd150ff44097acc807f0fa9dbf9e98569405598c0fc9812149c6c6258bd3",
+        "workbench/studies/pilot-v1.json": "ea272437f400e41947cddafd76a2ca555771f44b982e8551d13a464ba491d3c6",
+        "falsifylab/tools/evaluate_kv.py": "11b4b8655c2f90e67846e4a445fbc8d3a4db64fe10f4d6d42232a2f4532a7110",
+        "falsifylab/tools/serve_research_kv.py": "5c72b20a9be90480a616f0781cebea4be6f77090987c61bd1da7ece29e492570",
+        "vendor/kv_server/MANIFEST.json": "c23a136c382cfafe7746b105cbe86c18784f923e567d5152947a4f66ffb5b533",
+        "vendor/kv_server/README.md": "4cbe915fad0d9dec4729c291ed53c453460d44cf6f6041c175ef35b5bb2819ff",
+        "vendor/kv_server/aof.py": "bc4b37756189e1a5d41f247fd7e9674fb3bbf145260fb18a5d541248e39a04d9",
+        "vendor/kv_server/aof_lock.py": "4fd7eecd59df6d64892285a9c582e02017b3100bf5cf20a8628bc02283272078",
+        "vendor/kv_server/commands.py": "e266b324ef5245dea2a881ab65ddd3357d03017cc0ad3b795956aba881508b57",
+        "vendor/kv_server/main.py": "76f9326904465c1b4a0a859f863154957218628f32cdfc203bc29c4a636cc095",
+        "vendor/kv_server/resp.py": "e84e31c7dcd0f71c11db9731f3c4e35e5c6d17d1ad603795bc7ada9ed937b481",
+        "vendor/kv_server/response.py": "e0b0a82d5fc1d5de7c1d3bf64483d60a8f07b9e32b22329fa3b734870293aa78",
+        "vendor/kv_server/rewrite_aof.py": "edecbb6bc96a7af1db70494e2f66002d1072517d419ac0ab0344ae1f7588f355",
+        "vendor/kv_server/server.py": "63cb08a656b18250a96dba55dfb054850fd855ddd07c4082b46bdd09763f6685",
+        "vendor/kv_server/store.py": "7aa79d7d728a659374817f5306ac9583bc507c0df117508fbfb1585903a74e5f",
+        ".github/workflows/tests.yml": "c0391b3286a07291b81371dc8da934f87e3006e14fcbcec3f66261cbca75892c",
+        "sourcelens/requirements-tested.txt": "e8c1cf8a074e316a7799d95f64ac1d60f0cdc0b6c8bee29915d7ff0754f908ac",
+        "workbench/requirements-review.txt": "039aa2794ecfe2eebfd4ea05bb6f16dcfacd98b42e8a7edba2049502ca60c724",
+        "argscope/pyproject.toml": "52589099add028e62177ec7ee03a9396309775b61b6662771d979c3b78635e1a",
+        "falsifylab/pyproject.toml": "8d7575644ad0ea861cdbcd04e7ad9c59c79852b809d38f2d5add1f76020cfe07",
+        "sourcelens/pyproject.toml": "f2d0c53fc2fd2fc05af5298877287268bde8b15abb9f8419666e1cec9dcaf07b",
+        "workbench/pyproject.toml": "9c2bff40ea4219b5189b0b52ae82aeb284b54b9c1902089f172c0525ab69cbaf",
+        "sourcelens/web/package-lock.json": "e5aaf940c9344f643e9a6a19fe7b44f31d6acdb3c0690882c92f513b5ded8f9c",
+        "sourcelens/web/package.json": "29e20decf7f229f04976d8809b20ef4d4e3493380376dac30dd3aec34a05b8ef",
+        "workbench/review_web/vite.config.mjs": "fb0efd6ec7a6a866a79699ec9f02d4923529f3c7bfb7e3cedf082188d7fa0c96",
+        "workbench/review_web/index.html": "9d539fc8c4d678a1ba428899414bc8efacf1ee15526a23a9d2fbfdadc8f921f6",
+        "workbench/docs/EXPERIMENT_PROTOCOL.md": "d32f31efb6baf1a826c8a545a7f69eccee07457da9454c3d223eaa9a36352b44",
+        "workbench/Launch Bailian.command": "9b6cfc1c357506075f13b2378e7ea28b807410fc3b73fecaf46ca829dff22944",
+        "workbench/Launch Codex.command": "7dc5d69191cf5afcec0c9e89727ac934e9d3d1a5bcb77649f21fc8e351a39692",
+        "workbench/Launch MVP.command": "02cfc10bd72fb4b2593360c8ba64ecae3061411a5f7c6ae76c4c7fbd84737ee0",
+        "workbench/Launch Paper Examples.command": "70e4dacabe9c6b386630e1ac40c98a32aba1513c18a81f0fde276533e4e42ecc",
+        "workbench/ArgScope Codex.app/Contents/Info.plist": "675f2ddfa91abb34bcdd75c665a2ac907698fa48b7ca22ce710e3faf7669910b",
+        "workbench/ArgScope.app/Contents/Info.plist": "35a53e5af1e6f861dedd95d6a80281f0d820654c5a1e68eef9bd029ac3be12bb",
+        "workbench/ArgScope Codex.app/Contents/MacOS/ArgScope": "690785e21508256005602b434692bb7920fdb4227fa218a05a80ee6ed53e357c",
+        "workbench/ArgScope.app/Contents/MacOS/ArgScope": "690785e21508256005602b434692bb7920fdb4227fa218a05a80ee6ed53e357c"
+      },
+      "sha256": "cd1c9ccfe582bda2a09291e253b39e65e02660fad7919bcf3d24629a7d1c29b8",
+      "git": null
+    },
+    "environment": {
+      "python": "3.10.9",
+      "system": "Darwin",
+      "machine": "arm64",
+      "installed_distributions": {
+        "PyYAML": "6.0.4",
+        "aiosqlite": "0.22.1",
+        "annotated-doc": "0.0.6",
+        "annotated-types": "0.8.0",
+        "anyio": "4.16.0",
+        "attrs": "26.1.0",
+        "certifi": "2026.11.20",
+        "charset-normalizer": "3.5.3",
+        "click": "8.5.1",
+        "cloudpickle": "3.1.3",
+        "distro": "1.9.0",
+        "exceptiongroup": "1.3.2",
+        "fastapi": "0.162.5",
+        "h11": "0.16.0",
+        "httpcore": "1.0.9",
+        "httpcore2": "2.14.0",
+        "httpx": "0.28.1",
+        "httpx2": "2.14.0",
+        "idna": "3.20",
+        "iniconfig": "2.3.1",
+        "joblib": "1.6.0",
+        "jsonpatch": "1.46",
+        "jsonpointer": "3.12",
+        "langchain-core": "1.7.7",
+        "langchain-protocol": "0.0.22",
+        "langgraph": "1.2.24",
+        "langgraph-checkpoint": "4.3.2",
+        "langgraph-checkpoint-sqlite": "3.1.3",
+        "langgraph-prebuilt": "1.1.3",
+        "langgraph-sdk": "0.4.14",
+        "langsmith": "0.14.17",
+        "numpy": "1.26.4",
+        "opentelemetry-api": "1.45.2",
+        "orjson": "3.13.0",
+        "ormsgpack": "1.12.2",
+        "packaging": "26.4",
+        "pip": "22.3.1",
+        "pluggy": "1.7.0",
+        "py": "1.11.0",
+        "pydantic": "2.11.7",
+        "pydantic_core": "2.33.2",
+        "pypdf": "6.21.4",
+        "pytest": "7.1.2",
+        "python-multipart": "0.0.32",
+        "requests": "2.34.2",
+        "requests-toolbelt": "1.0.0",
+        "scikit-learn": "1.2.1",
+        "scipy": "1.10.0",
+        "setuptools": "65.5.0",
+        "sniffio": "1.3.1",
+        "sqlite-vec": "0.1.9",
+        "starlette": "1.7.0",
+        "tenacity": "9.2.1",
+        "threadpoolctl": "3.8.0",
+        "tomli": "2.5.0",
+        "truststore": "0.10.5",
+        "typing-inspection": "0.4.5",
+        "typing_extensions": "4.16.0",
+        "urllib3": "2.8.0",
+        "uuid_utils": "0.19.0",
+        "uvicorn": "0.49.0",
+        "websockets": "16.1.1",
+        "xxhash": "4.1.0",
+        "z3-solver": "5.4.1.0",
+        "zstandard": "0.25.0"
+      }
+    },
+    "prompt_version": "review-provider-source-pinned-v1",
+    "prompt_source": {
+      "workbench/workbench/review/bailian.py": "9b9985b6f19caee1759864e0c2387c98f6530d01f39304ae9c559f6cefb229d8",
+      "workbench/workbench/review/codex_provider.py": "d6976eff4f1d7db7a7fa61e7377e968fa6c3ddfc3415449c14577fc27360db28",
+      "workbench/workbench/review/providers.py": "9624ec4880db31cdbec2ebfc15122fac960397f2fb58bac852c152c8e2136bfb",
+      "workbench/tools/run_pilot.py": "33d00b9cc5f99743ecc2fa3d3ef9e24227355872794aea864a3db15e9d57df81"
+    },
+    "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+    "model_requested": "gpt-6.1-sol",
+    "model_snapshot_returned": null,
+    "model_snapshot_limit": "Adapters do not persist an immutable server model revision; explicit aliases can change",
+    "config": {
+      "protocol": "argscope-paired-pilot-v1",
+      "prompt_version": "review-provider-source-pinned-v1",
+      "question": "Reconstruct the selected passage's local argument, distinguish its speakers and assumptions, and state the scope of any proposed formal mapping.",
+      "seed": 2411,
+      "maximum_model_calls": 20,
+      "cases": [
+        {
+          "id": "Q-attribution",
+          "source": "quine",
+          "page": 1,
+          "start": "It is some such",
+          "end": "they deny Pegasus.",
+          "focus": "reported positions and hypothetical concession"
+        },
+        {
+          "id": "Q-description",
+          "source": "quine",
+          "page": 4,
+          "start": "Where descriptions are concerned",
+          "end": "there be such an entity.",
+          "focus": "negative description, uniqueness and meaningfulness"
+        },
+        {
+          "id": "S-basic",
+          "source": "chalmers",
+          "page": 5,
+          "start": "2. The Argument for a Singularity",
+          "end": "The conclusion says that there will be superintelligence.",
+          "focus": "displayed inference versus independent premise support"
+        },
+        {
+          "id": "S-qualified",
+          "source": "chalmers",
+          "page": 6,
+          "start": "The argument depends on the assumption",
+          "end": "4. There will be AI++ (before too long, absent defeaters).",
+          "focus": "simplifying assumptions, timeframes and defeaters"
+        }
+      ]
+    },
+    "config_sha256": "a3cc91f5e04a9dd594f2f08f5c21186f728e437b13eaa8a4e7a52558ef99fe08",
+    "corpus_sha256": "452ca214baafcb31e0715e7b9a12174f371baee16f3511af2b6abf50a0a6b166",
+    "fixture_only": false,
+    "schedule": {
+      "protocol": "argscope-paired-pilot-v1",
+      "cases": [
+        "Q-description",
+        "S-qualified",
+        "S-basic",
+        "Q-attribution"
+      ],
+      "arms": [
+        "A1",
+        "A2",
+        "A3",
+        "A4-human-pending"
+      ],
+      "maximum_model_calls": 20,
+      "model_calls_made": 0,
+      "corpus_sha256": "452ca214baafcb31e0715e7b9a12174f371baee16f3511af2b6abf50a0a6b166",
+      "status": "plan_only"
+    },
+    "evidence_context": [],
+    "human_review": "pending; no application approval issued"
+  },
+  "result": {
+    "status": "completed_awaiting_human",
+    "error": null,
+    "fixture_only": false,
+    "provenance_sha256": "e8332a87274ae3509f4c30ce611d614615f5ead9df977795b62e0307cf722b7a",
+    "source_after_sha256": "cd1c9ccfe582bda2a09291e253b39e65e02660fad7919bcf3d24629a7d1c29b8",
+    "source_unchanged": true,
+    "calls": [
+      {
+        "id": "01-Q-description-A1-draft",
+        "input_sha256": "35e725e43a1866d43809277236293a8e57395366d795f62ec1c794d21195153d",
+        "status": "validated",
+        "raw_sha256": "e5a71c15a45bc87c31550e5f8d7a3d9248bb1dc1cd9f9efedd31d8cf1c2da097",
+        "elapsed_seconds": 42.879977,
+        "usage": [
+          {
+            "operation": "draft",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 16618,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1611,
+              "reasoning_output_tokens": 373
+            }
+          }
+        ]
+      },
+      {
+        "id": "02-Q-description-A2-critique",
+        "input_sha256": "a8df9689e9ceb73a1620951d20036c5a3bd94d2b1be6a1851454edd5822c6ede",
+        "status": "validated",
+        "raw_sha256": "4a1ff4554eaa002321c6126128900ddf2da7f2087c445467e51e6b8ab13e005b",
+        "elapsed_seconds": 12.62315,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17166,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 186,
+              "reasoning_output_tokens": 85
+            }
+          }
+        ]
+      },
+      {
+        "id": "03-Q-description-A2-revise",
+        "input_sha256": "dc010ee180a196edc35f05c5b2b59a0203db53f8e96a004a1d66f7eca3338906",
+        "status": "validated",
+        "raw_sha256": "8ca35b89f16150a5f4b132a0879fc8ce684bed94e80ee7aeb6cec3d77c98f528",
+        "elapsed_seconds": 33.597754,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17798,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1259,
+              "reasoning_output_tokens": 40
+            }
+          }
+        ]
+      },
+      {
+        "id": "04-Q-description-A3-critique",
+        "input_sha256": "b4b97eba52063b28e6d81f0ecddd982ba3961b4bd5217797c4291bf3531390f7",
+        "status": "validated",
+        "raw_sha256": "20f92ed516838b77b8491165560a7f432a9c7708972efaf1743f35d21b45abc0",
+        "elapsed_seconds": 17.108175,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17710,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 445,
+              "reasoning_output_tokens": 49
+            }
+          }
+        ]
+      },
+      {
+        "id": "05-Q-description-A3-revise",
+        "input_sha256": "2ac7aa75223c808e1adffff2f083a9c9abe8121181eb5b734ce275e475cab180",
+        "status": "validated",
+        "raw_sha256": "bb516530ae52a09ec136b84b0d2ac1a113032987f1183e8fbd7212fef9dd5a36",
+        "elapsed_seconds": 46.397603,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18562,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1916,
+              "reasoning_output_tokens": 253
+            }
+          }
+        ]
+      },
+      {
+        "id": "06-S-qualified-A1-draft",
+        "input_sha256": "4c4095c4db1fad1452fbe426b67b06b6e5d76dd429946b3e44d57b5317225c0a",
+        "status": "validated",
+        "raw_sha256": "59ac92756b631608d7d683aba6d5035411ad5ff6a4048358ee122852f40d5371",
+        "elapsed_seconds": 39.221566,
+        "usage": [
+          {
+            "operation": "draft",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 16675,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1533,
+              "reasoning_output_tokens": 145
+            }
+          }
+        ]
+      },
+      {
+        "id": "07-S-qualified-A3-critique",
+        "input_sha256": "b25fb0f33d6601e1eb90c0944840a4d39f9564be72900fe642a9af65b7906ac9",
+        "status": "validated",
+        "raw_sha256": "684ad5767e64668ca731d7f45c7cba452051906fd66ddb351350b202d2d3dc4c",
+        "elapsed_seconds": 21.219046,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18075,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 621,
+              "reasoning_output_tokens": 22
+            }
+          }
+        ]
+      },
+      {
+        "id": "08-S-qualified-A3-revise",
+        "input_sha256": "ee068106a13ad1ee2326c1db2f355a9ac244b1a25e5c6843c2dfa676165087e4",
+        "status": "validated",
+        "raw_sha256": "49f49374587f56e94db8c2b9e3411b7c0b1b35cb2a4eb2ea717ae8ff86d8ef7b",
+        "elapsed_seconds": 46.77082,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18964,
+              "cached_input_tokens": 15104,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1932,
+              "reasoning_output_tokens": 165
+            }
+          }
+        ]
+      },
+      {
+        "id": "09-S-qualified-A2-critique",
+        "input_sha256": "b5ad35c8f2c54a7aff74d99e453cb2838c0ab900d1fea8001f23b2c3fd5369ff",
+        "status": "validated",
+        "raw_sha256": "1448fdfe979539e4d153efea7b167a330e3a7911dba195fdf9b08cdd13d19145",
+        "elapsed_seconds": 15.976379,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17307,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 369,
+              "reasoning_output_tokens": 44
+            }
+          }
+        ]
+      },
+      {
+        "id": "10-S-qualified-A2-revise",
+        "input_sha256": "7e944dfdf949fd043b3b02e806f316a4390f5d85f8e5916c9192415470444b0c",
+        "status": "validated",
+        "raw_sha256": "9ff3c7464a94c7ea2abfb2f8f91a5eb65c91cd88f77d1be5dd17b2772cfe27ab",
+        "elapsed_seconds": 40.750337,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18185,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1600,
+              "reasoning_output_tokens": 102
+            }
+          }
+        ]
+      },
+      {
+        "id": "11-S-basic-A1-draft",
+        "input_sha256": "27afe9ce92fb4dbbaf195a4f023c18b3a18762a9f55c926c5eea3356e4503409",
+        "status": "validated",
+        "raw_sha256": "e907ff390cadd469ca6a8cebbebf874bd7ba3b156d37376659e3f42d1874d1e8",
+        "elapsed_seconds": 30.387553,
+        "usage": [
+          {
+            "operation": "draft",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 16632,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1115,
+              "reasoning_output_tokens": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "12-S-basic-A2-critique",
+        "input_sha256": "ac15911a421a985087704b8284060839b8b687e4fef71323dff795d668395bab",
+        "status": "validated",
+        "raw_sha256": "47ab66aec4f27c7afb0168d904764c7e9070ffdb9092390d271159a9fa32f92e",
+        "elapsed_seconds": 12.55249,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17032,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 212,
+              "reasoning_output_tokens": 40
+            }
+          }
+        ]
+      },
+      {
+        "id": "13-S-basic-A2-revise",
+        "input_sha256": "3c832a0448ecf212517b7664f3e291983d81056d306b53ca1e4dd8115d40db2a",
+        "status": "validated",
+        "raw_sha256": "6b5a120dae5943250babb4648c674512abae4b1b76284251a883ca3e5ccd8299",
+        "elapsed_seconds": 35.457698,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17742,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1111,
+              "reasoning_output_tokens": 82
+            }
+          }
+        ]
+      },
+      {
+        "id": "14-S-basic-A3-critique",
+        "input_sha256": "4dec1d8d9e431f0a9f391944eeaeec17208a5df519ca6d1afa5ada0fceb73253",
+        "status": "validated",
+        "raw_sha256": "be86bd5b70b5de389ed03878ccdbd18128cb9411dbe51cdaba8646f88ac4c33b",
+        "elapsed_seconds": 19.584269,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17385,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 538,
+              "reasoning_output_tokens": 217
+            }
+          }
+        ]
+      },
+      {
+        "id": "15-S-basic-A3-revise",
+        "input_sha256": "6fdcc4a30da3ac43dc85731d4b6d40fc945ba3ce23352f80e1025af1050029a3",
+        "status": "validated",
+        "raw_sha256": "bed6cb3d7134524a9f7a60a3271219a948b256bdc73a2cd66fe1779c2fb2c036",
+        "elapsed_seconds": 32.608619,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18096,
+              "cached_input_tokens": 15104,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1212,
+              "reasoning_output_tokens": 170
+            }
+          }
+        ]
+      },
+      {
+        "id": "16-Q-attribution-A1-draft",
+        "input_sha256": "26819039a2c19622cd4e4f11f02feb6aa7f53bd1a030f9c3bdc533fa253b84d0",
+        "status": "validated",
+        "raw_sha256": "6bb18a497b52484ddf36a828b85a404ebc06197adb43ed26d1d4d4ef928f290b",
+        "elapsed_seconds": 44.703562,
+        "usage": [
+          {
+            "operation": "draft",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 16602,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1845,
+              "reasoning_output_tokens": 310
+            }
+          }
+        ]
+      },
+      {
+        "id": "17-Q-attribution-A3-critique",
+        "input_sha256": "e4353805f6d33d1e6c9cdfa80da29eecd9650c7f968b3c4544d92de3fe764939",
+        "status": "validated",
+        "raw_sha256": "06c5d4b70d0046d76b0f122b7c0a55a477feddbdc5387a47b010d3fda8d684c5",
+        "elapsed_seconds": 20.464775,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18199,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 630,
+              "reasoning_output_tokens": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "18-Q-attribution-A3-revise",
+        "input_sha256": "356e94a10039da22aeda7b027ce5b935ab60c11372d8027df4d3381525c458a8",
+        "status": "validated",
+        "raw_sha256": "58d7f632125fb88c2adae9e8cdb2b72e69c407786829bc25ab4f2b265591a65e",
+        "elapsed_seconds": 51.036097,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 19326,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 2120,
+              "reasoning_output_tokens": 190
+            }
+          }
+        ]
+      },
+      {
+        "id": "19-Q-attribution-A2-critique",
+        "input_sha256": "ec4b09fe139164ef77080af912b97a7aec8ba89b9196aa59187e7d58e8c1b17f",
+        "status": "validated",
+        "raw_sha256": "b11101bc78674c66a2577c91c433cc9ff0dce732f48b08e36b85015c3874bc6e",
+        "elapsed_seconds": 13.789854,
+        "usage": [
+          {
+            "operation": "critique",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 17412,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 183,
+              "reasoning_output_tokens": 67
+            }
+          }
+        ]
+      },
+      {
+        "id": "20-Q-attribution-A2-revise",
+        "input_sha256": "eb039d8471590c491b3c26f5d018ccd1524f1e6d39c57fee523a0c7804da2222",
+        "status": "validated",
+        "raw_sha256": "800e339e95191aafb7ad4b897e8a0ff30fb764f35224f145f454b4821c3e218d",
+        "elapsed_seconds": 38.716386,
+        "usage": [
+          {
+            "operation": "revise",
+            "provider": "codex-cli:3b6d00deea5f:gpt-6.1-sol:review-v1",
+            "usage": {
+              "input_tokens": 18051,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 1548,
+              "reasoning_output_tokens": 48
+            }
+          }
+        ]
+      }
+    ],
+    "model_calls": 20,
+    "fixture_calls": 0,
+    "elapsed_seconds": 615.892594,
+    "artifacts": [
+      {
+        "case": "Q-description",
+        "arm": "A1",
+        "file": "Q-description-A1.json",
+        "sha256": "e5a71c15a45bc87c31550e5f8d7a3d9248bb1dc1cd9f9efedd31d8cf1c2da097"
+      },
+      {
+        "case": "Q-description",
+        "arm": "A2",
+        "file": "Q-description-A2.json",
+        "sha256": "8ca35b89f16150a5f4b132a0879fc8ce684bed94e80ee7aeb6cec3d77c98f528"
+      },
+      {
+        "case": "Q-description",
+        "arm": "A3",
+        "file": "Q-description-A3.json",
+        "sha256": "bb516530ae52a09ec136b84b0d2ac1a113032987f1183e8fbd7212fef9dd5a36"
+      },
+      {
+        "case": "S-qualified",
+        "arm": "A1",
+        "file": "S-qualified-A1.json",
+        "sha256": "59ac92756b631608d7d683aba6d5035411ad5ff6a4048358ee122852f40d5371"
+      },
+      {
+        "case": "S-qualified",
+        "arm": "A3",
+        "file": "S-qualified-A3.json",
+        "sha256": "49f49374587f56e94db8c2b9e3411b7c0b1b35cb2a4eb2ea717ae8ff86d8ef7b"
+      },
+      {
+        "case": "S-qualified",
+        "arm": "A2",
+        "file": "S-qualified-A2.json",
+        "sha256": "9ff3c7464a94c7ea2abfb2f8f91a5eb65c91cd88f77d1be5dd17b2772cfe27ab"
+      },
+      {
+        "case": "S-basic",
+        "arm": "A1",
+        "file": "S-basic-A1.json",
+        "sha256": "e907ff390cadd469ca6a8cebbebf874bd7ba3b156d37376659e3f42d1874d1e8"
+      },
+      {
+        "case": "S-basic",
+        "arm": "A2",
+        "file": "S-basic-A2.json",
+        "sha256": "6b5a120dae5943250babb4648c674512abae4b1b76284251a883ca3e5ccd8299"
+      },
+      {
+        "case": "S-basic",
+        "arm": "A3",
+        "file": "S-basic-A3.json",
+        "sha256": "bed6cb3d7134524a9f7a60a3271219a948b256bdc73a2cd66fe1779c2fb2c036"
+      },
+      {
+        "case": "Q-attribution",
+        "arm": "A1",
+        "file": "Q-attribution-A1.json",
+        "sha256": "6bb18a497b52484ddf36a828b85a404ebc06197adb43ed26d1d4d4ef928f290b"
+      },
+      {
+        "case": "Q-attribution",
+        "arm": "A3",
+        "file": "Q-attribution-A3.json",
+        "sha256": "58d7f632125fb88c2adae9e8cdb2b72e69c407786829bc25ab4f2b265591a65e"
+      },
+      {
+        "case": "Q-attribution",
+        "arm": "A2",
+        "file": "Q-attribution-A2.json",
+        "sha256": "800e339e95191aafb7ad4b897e8a0ff30fb764f35224f145f454b4821c3e218d"
+      }
+    ]
+  },
+  "descriptive_observations": {
+    "status": "completed_awaiting_human",
+    "model_calls": 20,
+    "validated_calls": 20,
+    "run_result_sha256": "da1e0ad6d7486e961693212ffe32c286d630442de4782b8b7a3341ee4204bcba",
+    "model": "gpt-6.1-sol",
+    "reviewer": "Codex assistant, unblinded descriptive inspection; not an independent expert",
+    "human_scores": "pending",
+    "cases": [
+      {
+        "id": "Q-attribution",
+        "arms": {
+          "A1": {
+            "artifact_sha256": "6bb18a497b52484ddf36a828b85a404ebc06197adb43ed26d1d4d4ef928f290b",
+            "nodes": 9,
+            "added_assumptions": 1,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A2": {
+            "artifact_sha256": "800e339e95191aafb7ad4b897e8a0ff30fb764f35224f145f454b4821c3e218d",
+            "nodes": 9,
+            "added_assumptions": 1,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A3": {
+            "artifact_sha256": "58d7f632125fb88c2adae9e8cdb2b72e69c407786829bc25ab4f2b265591a65e",
+            "nodes": 9,
+            "added_assumptions": 2,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          }
+        }
+      },
+      {
+        "id": "Q-description",
+        "arms": {
+          "A1": {
+            "artifact_sha256": "e5a71c15a45bc87c31550e5f8d7a3d9248bb1dc1cd9f9efedd31d8cf1c2da097",
+            "nodes": 5,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics"
+            ]
+          },
+          "A2": {
+            "artifact_sha256": "8ca35b89f16150a5f4b132a0879fc8ce684bed94e80ee7aeb6cec3d77c98f528",
+            "nodes": 5,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics"
+            ]
+          },
+          "A3": {
+            "artifact_sha256": "bb516530ae52a09ec136b84b0d2ac1a113032987f1183e8fbd7212fef9dd5a36",
+            "nodes": 5,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics"
+            ]
+          }
+        }
+      },
+      {
+        "id": "S-basic",
+        "arms": {
+          "A1": {
+            "artifact_sha256": "e907ff390cadd469ca6a8cebbebf874bd7ba3b156d37376659e3f42d1874d1e8",
+            "nodes": 3,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A2": {
+            "artifact_sha256": "6b5a120dae5943250babb4648c674512abae4b1b76284251a883ca3e5ccd8299",
+            "nodes": 3,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A3": {
+            "artifact_sha256": "bed6cb3d7134524a9f7a60a3271219a948b256bdc73a2cd66fe1779c2fb2c036",
+            "nodes": 3,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          }
+        }
+      },
+      {
+        "id": "S-qualified",
+        "arms": {
+          "A1": {
+            "artifact_sha256": "59ac92756b631608d7d683aba6d5035411ad5ff6a4048358ee122852f40d5371",
+            "nodes": 7,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A2": {
+            "artifact_sha256": "9ff3c7464a94c7ea2abfb2f8f91a5eb65c91cd88f77d1be5dd17b2772cfe27ab",
+            "nodes": 8,
+            "added_assumptions": 1,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "attribution_without_reference",
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          },
+          "A3": {
+            "artifact_sha256": "49f49374587f56e94db8c2b9e3411b7c0b1b35cb2a4eb2ea717ae8ff86d8ef7b",
+            "nodes": 7,
+            "added_assumptions": 0,
+            "tool_outcomes": [
+              "unsupported_semantics"
+            ],
+            "issues": [
+              "unsupported_semantics",
+              "unsupported_semantics",
+              "unsupported_semantics"
+            ]
+          }
+        }
+      }
+    ],
+    "tokens": {
+      "input_tokens": 353537,
+      "cached_input_tokens": 30208,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 21986,
+      "reasoning_output_tokens": 2422
+    }
+  },
+  "human_approval": false,
+  "human_scores": "pending",
+  "raw_files": {
+    "outputs/delivery-061-20261124/codex-pilot/01-Q-description-A1-draft.input.json": "9a6ea9f91d1be00f89ae0b5e360197b62164b82c92dc6521eec0cfc558e573c9",
+    "outputs/delivery-061-20261124/codex-pilot/01-Q-description-A1-draft.raw.json": "89ca36c1283bf75924d0d8260b64c4d08cb8be1c84ddb6528254e50db2c7bab5",
+    "outputs/delivery-061-20261124/codex-pilot/01-Q-description-A1-draft.receipt.json": "16ab0a35a250af080bbcde920281fc563f10bea78047e7f61d99cea30b466469",
+    "outputs/delivery-061-20261124/codex-pilot/02-Q-description-A2-critique.input.json": "c59c20a294b0fa76f40d6522ed1b88c957a9f309c64b7392acd540131c313ac3",
+    "outputs/delivery-061-20261124/codex-pilot/02-Q-description-A2-critique.raw.json": "e998b09fe6b351cef5a63dedda714e00a7083c3b65015efcf45d75d769b242b4",
+    "outputs/delivery-061-20261124/codex-pilot/02-Q-description-A2-critique.receipt.json": "fd609b9126d3e3d7c05146fa18bdf650cc297571e02669c71103795d171a9199",
+    "outputs/delivery-061-20261124/codex-pilot/03-Q-description-A2-revise.input.json": "9402e2a671263a443ca0fe54ce3a3f88d9bff1f9072cdaf6aae8b94fae38d4c8",
+    "outputs/delivery-061-20261124/codex-pilot/03-Q-description-A2-revise.raw.json": "5ed891113aeb53c21b2d9f9ac924751decae9bc20811821e301a5222abecff7d",
+    "outputs/delivery-061-20261124/codex-pilot/03-Q-description-A2-revise.receipt.json": "b49819e2dceb71d507a209372deedd0d1cc143783eeae108622d2cca5dfe0309",
+    "outputs/delivery-061-20261124/codex-pilot/04-Q-description-A3-critique.input.json": "9d01e94495b9334f8405da79f246181d7d125d5e8e4684ac1a6b389e35685243",
+    "outputs/delivery-061-20261124/codex-pilot/04-Q-description-A3-critique.raw.json": "854a48ff4e22d56a0bc1c02f731d2c895a3d5934d2ac624f54be527bf9de76d4",
+    "outputs/delivery-061-20261124/codex-pilot/04-Q-description-A3-critique.receipt.json": "b55f6c9d64408315ecc974f74b1ffed658e824a7eebc02ffcafa477e33cb639d",
+    "outputs/delivery-061-20261124/codex-pilot/05-Q-description-A3-revise.input.json": "7dafc60fb7c565ff86d718c379f82b7c67a28eeb1d7d7fea7534ad6da3ac958b",
+    "outputs/delivery-061-20261124/codex-pilot/05-Q-description-A3-revise.raw.json": "0a9beb056128a24cc3bea21db43c2cbfdb539158a7edfe2124721b2a77f60b05",
+    "outputs/delivery-061-20261124/codex-pilot/05-Q-description-A3-revise.receipt.json": "ebf8747146cf9123677d30f7e2050386ac42051cb71d8fae61ffeef8ee76235d",
+    "outputs/delivery-061-20261124/codex-pilot/06-S-qualified-A1-draft.input.json": "5f495f2afd437c82e5d8397df88329ab14031fbb8788bfcbd0525a0389ab29f2",
+    "outputs/delivery-061-20261124/codex-pilot/06-S-qualified-A1-draft.raw.json": "4374e78a29ef345b1e9015bea170caea17ba1d45f73bf44c83cdf93c30d12cd9",
+    "outputs/delivery-061-20261124/codex-pilot/06-S-qualified-A1-draft.receipt.json": "b4c6f427445892b0ad399eef7a2b45052cab8bf2940662331bd1ed68f676a156",
+    "outputs/delivery-061-20261124/codex-pilot/07-S-qualified-A3-critique.input.json": "73262bc65319ec70906783f37e3c77e4a9f28dff03ef8363de7663b80ad79be2",
+    "outputs/delivery-061-20261124/codex-pilot/07-S-qualified-A3-critique.raw.json": "13f55d3dc0d572d93f6a36e515d9ff8ac00dab42eb6bc71a501803ac319dfcf8",
+    "outputs/delivery-061-20261124/codex-pilot/07-S-qualified-A3-critique.receipt.json": "f30c5746040a9fa631fd96d70d00e600a407775aaa572ed8e53ea7876bfda063",
+    "outputs/delivery-061-20261124/codex-pilot/08-S-qualified-A3-revise.input.json": "7ced58406bbb3c789bf5c1f9f72d8dadda7e7d00c651d2d900141efe8709bb4c",
+    "outputs/delivery-061-20261124/codex-pilot/08-S-qualified-A3-revise.raw.json": "6ce0a21388eae6e067e6437df93c09502ccba136269e154015cada10eb791f28",
+    "outputs/delivery-061-20261124/codex-pilot/08-S-qualified-A3-revise.receipt.json": "9c74dcf94e6f54aa580d660a405f73ad9e1b04657f87b8747f6de3f188b54d93",
+    "outputs/delivery-061-20261124/codex-pilot/09-S-qualified-A2-critique.input.json": "0f2265ec09192844ba291e1156851fd79e8f07db2f89fda0500da657a3778820",
+    "outputs/delivery-061-20261124/codex-pilot/09-S-qualified-A2-critique.raw.json": "ec8ee571d47ae36af2bae56dfe833126fe90f87767c11522039eb291f0c363df",
+    "outputs/delivery-061-20261124/codex-pilot/09-S-qualified-A2-critique.receipt.json": "e188a152a3236a4adf839bce11652427833a40ada4b78499c6d62fb2d0262c69",
+    "outputs/delivery-061-20261124/codex-pilot/10-S-qualified-A2-revise.input.json": "41c08e37ece363712c8b0a48e02b2616d08deb24f2717196761bf25c8e847ce5",
+    "outputs/delivery-061-20261124/codex-pilot/10-S-qualified-A2-revise.raw.json": "e739fe7d3ebd0ffb2def0cada7436a5c46d4b0da47f9e3cc2df943565f5c5084",
+    "outputs/delivery-061-20261124/codex-pilot/10-S-qualified-A2-revise.receipt.json": "a91611c0ea30030d7b81ac62f881e5d067d065c9f5ce11eb9711de189ca5a0b3",
+    "outputs/delivery-061-20261124/codex-pilot/11-S-basic-A1-draft.input.json": "df56415b166da2664df7defc16801184446c2eca63b1e1099a727fb0384a6114",
+    "outputs/delivery-061-20261124/codex-pilot/11-S-basic-A1-draft.raw.json": "7aa54a7a2f3dc4579f5a412d3e81eb8e6a8e5ffdf360dbefc53f074ec9983703",
+    "outputs/delivery-061-20261124/codex-pilot/11-S-basic-A1-draft.receipt.json": "94770e831f4b5ff53d15bfc019929a93c689a5e8e2ba62b714d19a796d1450fa",
+    "outputs/delivery-061-20261124/codex-pilot/12-S-basic-A2-critique.input.json": "a80341e007fd482f63e4d6e48b0aabc285e578ef2cb94eb2f29cdb4f170db095",
+    "outputs/delivery-061-20261124/codex-pilot/12-S-basic-A2-critique.raw.json": "2af7ca62c1e70600ede1b2fd2f9033ec0a39bff1cacf393d6ab5c837c85527bc",
+    "outputs/delivery-061-20261124/codex-pilot/12-S-basic-A2-critique.receipt.json": "a4b4bc23ed7c56e946cba77f6be6568365a780f6cf5d869800d41ce32d421bb3",
+    "outputs/delivery-061-20261124/codex-pilot/13-S-basic-A2-revise.input.json": "5c3e8cb7a5813b54bc9418e515a25f67874c9f9c4d63a0658c58f819c41399e5",
+    "outputs/delivery-061-20261124/codex-pilot/13-S-basic-A2-revise.raw.json": "1fdf59335b5148f1e8e306281cd04b5e59697613ccd47ff24435ddf918e8d1d1",
+    "outputs/delivery-061-20261124/codex-pilot/13-S-basic-A2-revise.receipt.json": "5c20fabcdff863367a6083303b2e4d7779d1b2135ea632a46e60e38e4ee39fb4",
+    "outputs/delivery-061-20261124/codex-pilot/14-S-basic-A3-critique.input.json": "861acdc3a7160ae80ff01208d7d5306f9053ee7c8451481bdd0174170419ad08",
+    "outputs/delivery-061-20261124/codex-pilot/14-S-basic-A3-critique.raw.json": "d271ee1497df00198007e4cdf564726f1ebf406678b1b99cee7682ce0779303b",
+    "outputs/delivery-061-20261124/codex-pilot/14-S-basic-A3-critique.receipt.json": "1259ac81726df3a327c8863a06da0ec1334e92e3def1139b8a082807bbdfa04c",
+    "outputs/delivery-061-20261124/codex-pilot/15-S-basic-A3-revise.input.json": "eae046c4504570f73ac6e9e3c05dccf66678ea07274f133ea43398360e7693b9",
+    "outputs/delivery-061-20261124/codex-pilot/15-S-basic-A3-revise.raw.json": "b590dc02312423ab2c9daef8a7c555a91cf6b4fb6b45623b239c94d612ac09b7",
+    "outputs/delivery-061-20261124/codex-pilot/15-S-basic-A3-revise.receipt.json": "b89a8b3e8c76a0f0be2b3cd3c353f7b9d638a75ea2e4e1caf032350bdba2e711",
+    "outputs/delivery-061-20261124/codex-pilot/16-Q-attribution-A1-draft.input.json": "9fce8c35feb9e94c516dfd4715e8a03f8657b5808044dccab58af08e3ebc2291",
+    "outputs/delivery-061-20261124/codex-pilot/16-Q-attribution-A1-draft.raw.json": "d168428da96703058918d9a352e5416347faf6edbbd712b92d594cc054b2c59b",
+    "outputs/delivery-061-20261124/codex-pilot/16-Q-attribution-A1-draft.receipt.json": "ab0337f67d079c74be6ddf88c85c2053ea95e54135d76b765d7e4bafe4db6c97",
+    "outputs/delivery-061-20261124/codex-pilot/17-Q-attribution-A3-critique.input.json": "70743dcd798de88c5b152dbcd4205439c90b3043b538003c3e766c46412c83db",
+    "outputs/delivery-061-20261124/codex-pilot/17-Q-attribution-A3-critique.raw.json": "15f866c842a5d0a39b2d076224e1b9f35c7e2579867cd5ac505edc208f1fa5ff",
+    "outputs/delivery-061-20261124/codex-pilot/17-Q-attribution-A3-critique.receipt.json": "0f263cb758bc9d4ec62181fda8a28df79a3868be8c79a3a15a751ff87e034516",
+    "outputs/delivery-061-20261124/codex-pilot/18-Q-attribution-A3-revise.input.json": "85f030c13b2f6d5737ceb2c4a1a839af33794598cbe56dcd00a1864966c5d438",
+    "outputs/delivery-061-20261124/codex-pilot/18-Q-attribution-A3-revise.raw.json": "4b549d80c392207e24366743722916010a29c2a9a02699e8aafaba5255b37d96",
+    "outputs/delivery-061-20261124/codex-pilot/18-Q-attribution-A3-revise.receipt.json": "f783273d1a0a4d66789b214a550ca78c1c8138ac4456ed742308a85640557ae2",
+    "outputs/delivery-061-20261124/codex-pilot/19-Q-attribution-A2-critique.input.json": "2034e006ef2a480b1dbabd4a0544a8dd83397f1009dea1e03b360453aec12695",
+    "outputs/delivery-061-20261124/codex-pilot/19-Q-attribution-A2-critique.raw.json": "5f6aa4f9cb8aeaead0b8af261959dda47d07aab4ece6dbea90bed13678d23357",
+    "outputs/delivery-061-20261124/codex-pilot/19-Q-attribution-A2-critique.receipt.json": "4c206f4fa4e65f896a6477b23ba8237bd3ae72d76bc7df66ad164f97ee69d4c7",
+    "outputs/delivery-061-20261124/codex-pilot/20-Q-attribution-A2-revise.input.json": "a4f02123defc66581585d8f84bd82968a96295291c9dc2cecd0456da3d92ba36",
+    "outputs/delivery-061-20261124/codex-pilot/20-Q-attribution-A2-revise.raw.json": "e96450746e0f62e067dc08f863b8a6e2d852765b19f3fd4b52f247f3adfd088c",
+    "outputs/delivery-061-20261124/codex-pilot/20-Q-attribution-A2-revise.receipt.json": "8651d35d1cf1138d094be433b0885bc3c986390ef96b9000010a2eab7bdf70cc",
+    "outputs/delivery-061-20261124/codex-pilot/Q-attribution-A1.json": "d168428da96703058918d9a352e5416347faf6edbbd712b92d594cc054b2c59b",
+    "outputs/delivery-061-20261124/codex-pilot/Q-attribution-A2.json": "e96450746e0f62e067dc08f863b8a6e2d852765b19f3fd4b52f247f3adfd088c",
+    "outputs/delivery-061-20261124/codex-pilot/Q-attribution-A3-audit.json": "296bfbdbe38ed9f15874c1ca4094e2b8ff6e63fece4dd9d9acaec4e416a6ecef",
+    "outputs/delivery-061-20261124/codex-pilot/Q-attribution-A3.json": "4b549d80c392207e24366743722916010a29c2a9a02699e8aafaba5255b37d96",
+    "outputs/delivery-061-20261124/codex-pilot/Q-description-A1.json": "89ca36c1283bf75924d0d8260b64c4d08cb8be1c84ddb6528254e50db2c7bab5",
+    "outputs/delivery-061-20261124/codex-pilot/Q-description-A2.json": "5ed891113aeb53c21b2d9f9ac924751decae9bc20811821e301a5222abecff7d",
+    "outputs/delivery-061-20261124/codex-pilot/Q-description-A3-audit.json": "6ef02cbf74c44dd74bf0a79e249198eacbb5a9f7a057b58c28ae5b9a2bee104e",
+    "outputs/delivery-061-20261124/codex-pilot/Q-description-A3.json": "0a9beb056128a24cc3bea21db43c2cbfdb539158a7edfe2124721b2a77f60b05",
+    "outputs/delivery-061-20261124/codex-pilot/S-basic-A1.json": "7aa54a7a2f3dc4579f5a412d3e81eb8e6a8e5ffdf360dbefc53f074ec9983703",
+    "outputs/delivery-061-20261124/codex-pilot/S-basic-A2.json": "1fdf59335b5148f1e8e306281cd04b5e59697613ccd47ff24435ddf918e8d1d1",
+    "outputs/delivery-061-20261124/codex-pilot/S-basic-A3-audit.json": "3474867ab447fc5c029d86eb40f3db1a4398493e50c1e95e5b098d173d80c445",
+    "outputs/delivery-061-20261124/codex-pilot/S-basic-A3.json": "b590dc02312423ab2c9daef8a7c555a91cf6b4fb6b45623b239c94d612ac09b7",
+    "outputs/delivery-061-20261124/codex-pilot/S-qualified-A1.json": "4374e78a29ef345b1e9015bea170caea17ba1d45f73bf44c83cdf93c30d12cd9",
+    "outputs/delivery-061-20261124/codex-pilot/S-qualified-A2.json": "e739fe7d3ebd0ffb2def0cada7436a5c46d4b0da47f9e3cc2df943565f5c5084",
+    "outputs/delivery-061-20261124/codex-pilot/S-qualified-A3-audit.json": "7a643e2d05dd09e5eac8370ed156c130263cb8dce926053c4c771adfd1bc3ab3",
+    "outputs/delivery-061-20261124/codex-pilot/S-qualified-A3.json": "6ce0a21388eae6e067e6437df93c09502ccba136269e154015cada10eb791f28",
+    "outputs/delivery-061-20261124/codex-pilot/post-run-observations.json": "133bea19b8aa185f0179018c955432c3f41d14f2c64d796cfcf8e318967042d4",
+    "outputs/delivery-061-20261124/codex-pilot/provenance.json": "6744e80a027931664d65d21df8ce197807639d17d78b01c769f6c1f87ce58462",
+    "outputs/delivery-061-20261124/codex-pilot/ratings-template.json": "2c80191052020e141541e552e72173c22b3bfd8c499be97b78df3bdcb1309b7f",
+    "outputs/delivery-061-20261124/codex-pilot/result.json": "1aef278de01c0fdf0e1b82af3fec1aa1dc529e1038784f6871e2ccf739a9fecb"
+  }
+}

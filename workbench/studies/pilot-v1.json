@@ -1,0 +1,13 @@
+{
+  "protocol": "argscope-paired-pilot-v1",
+  "prompt_version": "review-provider-source-pinned-v1",
+  "question": "Reconstruct the selected passage's local argument, distinguish its speakers and assumptions, and state the scope of any proposed formal mapping.",
+  "seed": 2411,
+  "maximum_model_calls": 20,
+  "cases": [
+    {"id": "Q-attribution", "source": "quine", "page": 1, "start": "It is some such", "end": "they deny Pegasus.", "focus": "reported positions and hypothetical concession"},
+    {"id": "Q-description", "source": "quine", "page": 4, "start": "Where descriptions are concerned", "end": "there be such an entity.", "focus": "negative description, uniqueness and meaningfulness"},
+    {"id": "S-basic", "source": "chalmers", "page": 5, "start": "2. The Argument for a Singularity", "end": "The conclusion says that there will be superintelligence.", "focus": "displayed inference versus independent premise support"},
+    {"id": "S-qualified", "source": "chalmers", "page": 6, "start": "The argument depends on the assumption", "end": "4. There will be AI++ (before too long, absent defeaters).", "focus": "simplifying assumptions, timeframes and defeaters"}
+  ]
+}

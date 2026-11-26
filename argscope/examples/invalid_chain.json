@@ -1,0 +1,5 @@
+{
+  "title": "Affirming the consequent does not establish the premise",
+  "premises": [{"id":"P1","formula":"p -> q"},{"id":"P2","formula":"q"},{"id":"P3","formula":"p -> r"}],
+  "steps": [{"id":"S1","formula":"p","depends_on":["P1","P2"]},{"id":"S2","formula":"r","depends_on":["S1","P3"]}]
+}

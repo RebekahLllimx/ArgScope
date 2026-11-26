@@ -1,0 +1,32 @@
+{
+  "schema_version": "research-case-v1",
+  "source": {
+    "key": "conditional-control",
+    "version": "v1",
+    "kind": "authored_control",
+    "text": "Assume that p implies q and that q holds. Does p follow?",
+    "locator": "Project-authored control, paragraph 1",
+    "reference_url": null
+  },
+  "reading": {
+    "id": "control-reading",
+    "speaker": "Project control author",
+    "commitment": "mutation_control",
+    "summary": "A deliberately invalid inference used only as a formal control.",
+    "review": {
+      "status": "self_reviewed",
+      "reviewer": "fixture author",
+      "rationale": "Formal control; no interpretation of a classic author is asserted."
+    }
+  },
+  "claim": {
+    "id": "affirming-consequent-control",
+    "origin": "deliberate_mutation_control",
+    "semantics": "classical-propositional-v1",
+    "premises": [
+      "p -> q",
+      "q"
+    ],
+    "conclusion": "p"
+  }
+}

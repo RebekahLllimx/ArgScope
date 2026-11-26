@@ -1,0 +1,94 @@
+{
+  "schema_version": "reconstruction-v1",
+  "reconstruction_id": "alternative-controls",
+  "parent_revision": null,
+  "source": {
+    "key": "conditional-control",
+    "version": "v1",
+    "kind": "authored_control",
+    "text": "Assume that p implies q and that q holds. Does p follow?",
+    "locator": "Project-authored control, paragraph 1",
+    "reference_url": null
+  },
+  "readings": [
+    {
+      "id": "control-reading",
+      "summary": "A deliberately invalid inference used only as a formal control.",
+      "origin": "deliberate_mutation_control",
+      "semantics": "classical-propositional-v1",
+      "nodes": [
+        {
+          "id": "P1",
+          "formula": "p -> q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "P2",
+          "formula": "q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "S1",
+          "formula": "p",
+          "role": "inference",
+          "speaker": "Project control author",
+          "commitment": "mutation_control",
+          "scope": "Selected inference only",
+          "depends_on": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "target": "S1"
+    },
+    {
+      "id": "modus-ponens-reading",
+      "summary": "A separate authored control with a changed second premise and conclusion.",
+      "origin": "deliberate_mutation_control",
+      "semantics": "classical-propositional-v1",
+      "nodes": [
+        {
+          "id": "P1",
+          "formula": "p -> q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "P2",
+          "formula": "p",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "S1",
+          "formula": "q",
+          "role": "inference",
+          "speaker": "Project control author",
+          "commitment": "mutation_control",
+          "scope": "Selected inference only",
+          "depends_on": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "target": "S1"
+    }
+  ],
+  "reviews": []
+}

@@ -1,0 +1,5 @@
+{
+  "title": "Contradictory premises must be diagnosed before entailment",
+  "premises": [{"id":"P1","formula":"p"},{"id":"P2","formula":"~p"},{"id":"P3","formula":"q"}],
+  "steps": [{"id":"S1","formula":"r","depends_on":["P1","P2","P3"]}]
+}

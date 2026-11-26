@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ArgScope · Research Prototype</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#editor">Skip to reconstruction</a>
+    <header>
+      <a class="brand" href="/">A ↗ ArgScope</a
+      ><span class="edition">LOCAL RESEARCH PROTOTYPE · 0.3</span
+      ><span id="connection">Connecting…</span>
+    </header>
+    <main>
+      <section class="intro">
+        <p class="eyebrow">FROM PASSAGE TO A CHECKABLE CLAIM</p>
+        <h1>Make the reasoning visible.</h1>
+        <p>
+          Keep the source, interpretation and formal check together. Review is
+          yours; calculation stays explicit.
+        </p>
+      </section>
+      <div
+        id="message"
+        class="message"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+      <div class="toolbar">
+        <label
+          >Example<select id="examples" aria-label="Example">
+            <option>Loading controls…</option>
+          </select></label
+        >
+        <button id="load-example">Open example as draft</button>
+        <label class="file-button"
+          >Import draft JSON<input
+            id="import-file"
+            type="file"
+            accept=".json,application/json"
+        /></label>
+        <button id="download-document">Export draft</button
+        ><button id="save" class="primary">Save snapshot</button>
+      </div>
+      <div class="workspace">
+        <aside>
+          <section class="panel">
+            <p class="eyebrow">VERSIONED WORKING SOURCE</p>
+            <div id="source"></div>
+          </section>
+          <section class="panel history">
+            <h2>Saved drafts</h2>
+            <p>Snapshots stay on this computer.</p>
+            <select id="history" aria-label="Saved snapshot">
+              <option value="">No saved snapshots</option></select
+            ><button id="open-history">Open saved head</button>
+            <p id="head" class="hash"></p>
+          </section>
+        </aside>
+        <div id="editor" class="panel editor" tabindex="-1">
+          <div class="editor-top">
+            <div>
+              <p class="eyebrow">EXPLICIT ALTERNATIVE READINGS</p>
+              <h2>Reconstruction</h2>
+            </div>
+            <button id="add-reading">Add alternative</button>
+          </div>
+          <div class="reading-picker">
+            <label
+              >Selected reading<select
+                id="readings"
+                aria-label="Selected reading"
+              ></select
+            ></label>
+            <div id="review-badges"></div>
+          </div>
+          <nav class="tabs" aria-label="Workspace panels">
+            <button data-tab="construct" aria-pressed="true">Reconstruct</button
+            ><button data-tab="review" aria-pressed="false">Review</button
+            ><button data-tab="results" aria-pressed="false">
+              Results & AST
+            </button>
+          </nav>
+          <section id="construct"><div id="reading-editor"></div></section>
+          <section id="review" hidden>
+            <h3>Review this exact interpretation</h3>
+            <p class="muted">
+              Record fidelity, attribution and interpretation separately. These
+              are your judgments, not authenticated expert certification. A
+              content edit makes old judgments stale.
+            </p>
+            <div class="review-inputs">
+              <label
+                >Reviewer<input
+                  id="reviewer"
+                  placeholder="Your name or reviewer label" /></label
+              ><label
+                >Rationale<textarea
+                  id="rationale"
+                  rows="3"
+                  placeholder="Explain the judgment for this source and reading"
+                ></textarea>
+              </label>
+            </div>
+            <div id="review-actions"></div>
+            <details>
+              <summary>Review history</summary>
+              <div id="review-history"></div>
+            </details>
+          </section>
+          <section id="results" hidden>
+            <div id="results-content">
+              <p>Run a check to inspect outcomes and witnesses.</p>
+            </div>
+            <details open>
+              <summary>Abstract syntax trees</summary>
+              <p class="muted">
+                These trees represent explicit formulas. They do not parse the
+                meaning of the source passage.
+              </p>
+              <div id="asts"></div>
+            </details>
+          </section>
+          <div class="runbar">
+            <label
+              >Formal backend<select id="backend" aria-label="Formal backend">
+                <option value="dpll">Tseitin + DPLL</option>
+                <option value="exhaustive">
+                  Exhaustive reference (12 variables)
+                </option>
+              </select></label
+            ><button id="analyze" class="primary">Run check</button>
+          </div>
+          <div class="exports">
+            <button id="verify-bundle" disabled>Replay result</button
+            ><button id="export-bundle" disabled>Export result JSON</button
+            ><button id="export-report" disabled>Export review HTML</button
+            ><label class="file-button"
+              >Verify bundle file<input
+                id="bundle-file"
+                type="file"
+                accept=".json,application/json"
+            /></label>
+          </div>
+        </div>
+      </div>
+      <section
+        class="panel trajectory-reader"
+        aria-labelledby="trajectory-title"
+      >
+        <p class="eyebrow">COMPLETED SIMULATION RECORDS</p>
+        <h2 id="trajectory-title">Trajectory reader</h2>
+        <p id="trajectory-status" class="muted">
+          Checking the configured trajectory store…
+        </p>
+        <p>
+          Read a completed control/intervention pair and explore a different
+          final window without rerunning the model. Window selection here is
+          exploratory and does not establish a new confirmation result.
+        </p>
+        <div class="toolbar">
+          <label class="file-button"
+            >Experiment report<input
+              id="trajectory-report"
+              type="file"
+              accept=".json,application/json"
+          /></label>
+          <label
+            >Recorded pair<select
+              id="trajectory-pairs"
+              aria-label="Recorded trajectory pair"
+            >
+              <option value="">Import an experiment-v3 report</option>
+            </select></label
+          >
+        </div>
+        <div class="trajectory-inputs">
+          <label
+            >Control key<input id="trajectory-control" maxlength="64"
+          /></label>
+          <label
+            >Intervention key<input id="trajectory-treated" maxlength="64"
+          /></label>
+          <label
+            >Final window<input
+              id="trajectory-window"
+              type="number"
+              min="1"
+              max="10000"
+              value="15"
+          /></label>
+        </div>
+        <div class="exports">
+          <button id="trajectory-measure" class="primary" disabled>
+            Read and measure</button
+          ><button id="trajectory-export" disabled>
+            Export exploratory measurement
+          </button>
+        </div>
+        <div id="trajectory-result" aria-live="polite"></div>
+      </section>
+      <footer>
+        Supported calculations are classical propositional checks. Declared
+        unencoded semantics remain unsupported. The optional trajectory reader
+        uses a configured local store. Numerical execution remains in the
+        separate experiment CLI.
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+{
+  "catalog_version": 1,
+  "review_date": "2026-11-23",
+  "status": "curated_design_cases_not_executable_semantic_tests",
+  "purpose": "Use carefully argued original texts to specify faithful reconstruction, not to assume that every author commits a fallacy.",
+  "cases": [
+    {
+      "id": "gettier-1963-case-i",
+      "author": "Edmund L. Gettier",
+      "title": "Is Justified True Belief Knowledge?",
+      "original_year": 1963,
+      "source_url": "https://fitelson.org/proseminar/gettier.pdf",
+      "locator": "Printed pp. 121-122: initial assumptions and Case I",
+      "semantic_requirements": [
+        "Separate actual-world truth from a subject's belief and justification.",
+        "Record the evidence and inference supporting a belief.",
+        "Track which object makes an existential description true.",
+        "Attribute the proposed knowledge analysis to the target view, not to Gettier's conclusion."
+      ],
+      "positive_control": "Preserve the difference between the valid embedded deduction and the challenge to a proposed sufficient condition for knowledge.",
+      "mutation_control": "A reconstruction that makes justification factive changes the source assumptions and must be flagged.",
+      "generation_constraint": "Never count a free assignment of Knowledge=false as discovery of a conceptual counterexample; knowledge attribution needs a declared interpretive judgment or reviewed case label."
+    },
+    {
+      "id": "nagel-1974-perspective-and-scope",
+      "author": "Thomas Nagel",
+      "title": "What Is It Like to Be a Bat?",
+      "original_year": 1974,
+      "source_url": "https://philosophy.uconn.edu/wp-content/uploads/sites/365/2020/03/Nagel-What-is-it-like-to-be-a-bat.pdf",
+      "locator": "Printed pp. 439-442, especially notes 6 and 8; p. 446 on the conclusion about physicalism",
+      "semantic_requirements": [
+        "Preserve the experiencer and the perspective from which a description is understood.",
+        "Distinguish first-person understanding from externally available physical description.",
+        "Preserve qualifications concerning current explanatory understanding.",
+        "Distinguish an epistemic or explanatory difficulty from the falsity of an ontological thesis."
+      ],
+      "positive_control": "Do not report physicalism as refuted merely because the reconstructed text records an explanatory gap.",
+      "mutation_control": "Strengthening a qualified explanatory conclusion into an unrestricted impossibility or falsity claim must be identified as a changed argument.",
+      "generation_constraint": "No numerical or Boolean assignment alone adjudicates the phenomenological claim; unsupported semantics remain review-required."
+    },
+    {
+      "id": "quine-1948-naming-and-existence",
+      "author": "W. V. Quine",
+      "title": "On What There Is",
+      "original_year": 1948,
+      "source_url": "https://rintintin.colorado.edu/~vancecd/phil375/Quine.pdf",
+      "locator": "Retyped PDF pp. 1 and 3-5: McX, Pegasus, and descriptive paraphrase; these are not original journal page numbers",
+      "semantic_requirements": [
+        "Distinguish a quoted name, a purported referent, a mental representation and an existential commitment.",
+        "Track author versus opponent commitments and concessions for argument.",
+        "Make the denotation assumptions of the chosen formal language explicit.",
+        "Treat descriptive paraphrase as an explicit interpretation rather than silently introducing a denoting constant."
+      ],
+      "positive_control": "A reconstruction must permit discussion of a purported entity without silently settling the existence dispute.",
+      "mutation_control": "Moving McX's presupposition into Quine's accepted premises must be detected as an attribution error.",
+      "generation_constraint": "A model of one chosen regimentation is not by itself a resolution of all rival ontologies."
+    },
+    {
+      "id": "quine-two-dogmas-substitution",
+      "author": "W. V. Quine",
+      "title": "Two Dogmas of Empiricism",
+      "original_year": 1951,
+      "source_url": "https://www.ditext.com/quine/quine.html",
+      "locator": "Sections I-III, especially the definition and interchangeability discussions",
+      "edition_note": "The host explicitly displays differences between the 1951 text and the revised 1961 version; record this rather than treating it as an unmarked original edition.",
+      "semantic_requirements": [
+        "Distinguish sameness of reference or extension from synonymy.",
+        "Distinguish stipulative definitions from claims about established usage.",
+        "Preserve quotation and compound-expression boundaries during substitution.",
+        "Treat a concept mapping as an interpretation requiring grounds, not an automatic philosophical solution."
+      ],
+      "positive_control": "Do not assume that creating one concept identifier establishes cognitive synonymy.",
+      "mutation_control": "Applying an object-language synonym substitution inside a quotation or a different compound must be flagged for review.",
+      "generation_constraint": "Search over stated admissible readings, not arbitrary changes of meaning chosen solely to make the argument fail."
+    }
+  ]
+}

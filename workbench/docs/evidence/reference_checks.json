@@ -1,0 +1,171 @@
+{
+  "schema_version": "argscope-reference-checks-v1",
+  "scope": "Guided formula checks and deliberately altered controls; no model accuracy or human approval claim",
+  "cases": [
+    {
+      "id": "Q1",
+      "label": "Quine local translation, forward",
+      "logic": "first_order",
+      "semantics": "classical-first-order-v1",
+      "domain": "nonempty; no constants or functions",
+      "budget": {
+        "timeout_ms_per_query": 1200,
+        "rlimit_per_query": 100000
+      },
+      "premises": [
+        "~(exists x. (W(x) & forall y. (W(y) -> y = x)))"
+      ],
+      "conclusion": "(forall x. ~W(x)) | (exists x. (W(x) & exists y. (W(y) & ~(x = y))))",
+      "outcome": "no_counterexample_complete",
+      "backend": "z3:5.4.1",
+      "finite_model": null,
+      "assignment": null,
+      "validation": null,
+      "solver_evidence": {
+        "kind": "trusted-solver-unsat",
+        "query": "premises AND NOT conclusion",
+        "proof_digest": "7f2b36ad54795fd9dbddc3b76fdac6e6908eca060a82cc10a8b128e318d1ebc5",
+        "proof_truncated": false,
+        "independently_proof_checked": false
+      }
+    },
+    {
+      "id": "Q2",
+      "label": "Quine local translation, reverse",
+      "logic": "first_order",
+      "semantics": "classical-first-order-v1",
+      "domain": "nonempty; no constants or functions",
+      "budget": {
+        "timeout_ms_per_query": 1200,
+        "rlimit_per_query": 100000
+      },
+      "premises": [
+        "(forall x. ~W(x)) | (exists x. (W(x) & exists y. (W(y) & ~(x = y))))"
+      ],
+      "conclusion": "~(exists x. (W(x) & forall y. (W(y) -> y = x)))",
+      "outcome": "no_counterexample_complete",
+      "backend": "z3:5.4.1",
+      "finite_model": null,
+      "assignment": null,
+      "validation": null,
+      "solver_evidence": {
+        "kind": "trusted-solver-unsat",
+        "query": "premises AND NOT conclusion",
+        "proof_digest": "bb1cf61f7fb47db40855db26e19348837d6fc9070349703208a6d3ecd030d7a1",
+        "proof_truncated": false,
+        "independently_proof_checked": false
+      }
+    },
+    {
+      "id": "Q3",
+      "label": "Altered reconstruction: replace zero-or-many with zero",
+      "logic": "first_order",
+      "semantics": "classical-first-order-v1",
+      "domain": "nonempty; no constants or functions",
+      "budget": {
+        "timeout_ms_per_query": 1200,
+        "rlimit_per_query": 100000
+      },
+      "premises": [
+        "~(exists x. (W(x) & forall y. (W(y) -> y = x)))"
+      ],
+      "conclusion": "forall x. ~W(x)",
+      "outcome": "witness_found",
+      "backend": "z3:5.4.1",
+      "finite_model": {
+        "domain_size": 2,
+        "predicates": {
+          "W": {
+            "0": true,
+            "1": true
+          }
+        }
+      },
+      "assignment": null,
+      "validation": {
+        "status": "formal_witness_verified",
+        "validator": "first-order-original-ast-v1",
+        "premise_values": [
+          true
+        ],
+        "conclusion_value": false
+      },
+      "solver_evidence": null
+    },
+    {
+      "id": "Q4",
+      "label": "Conditional repair: explicitly add at-most-one",
+      "logic": "first_order",
+      "semantics": "classical-first-order-v1",
+      "domain": "nonempty; no constants or functions",
+      "budget": {
+        "timeout_ms_per_query": 1200,
+        "rlimit_per_query": 100000
+      },
+      "premises": [
+        "~(exists x. (W(x) & forall y. (W(y) -> y = x)))",
+        "forall x. forall y. ((W(x) & W(y)) -> x = y)"
+      ],
+      "conclusion": "forall x. ~W(x)",
+      "outcome": "no_counterexample_complete",
+      "backend": "z3:5.4.1",
+      "finite_model": null,
+      "assignment": null,
+      "validation": null,
+      "solver_evidence": {
+        "kind": "trusted-solver-unsat",
+        "query": "premises AND NOT conclusion",
+        "proof_digest": "23d868ea36812a34686741dfc7fe05baac575089b693aaf654047c9e8559af1b",
+        "proof_truncated": false,
+        "independently_proof_checked": false
+      }
+    },
+    {
+      "id": "S1",
+      "label": "Chalmers displayed modus ponens",
+      "logic": "propositional",
+      "semantics": "classical-propositional-v1",
+      "domain": null,
+      "budget": null,
+      "premises": [
+        "p",
+        "p -> q"
+      ],
+      "conclusion": "q",
+      "outcome": "no_counterexample_complete",
+      "backend": "dpll-v1",
+      "finite_model": null,
+      "assignment": null,
+      "validation": null,
+      "solver_evidence": null
+    },
+    {
+      "id": "S2",
+      "label": "Altered reconstruction: omit conditional premise",
+      "logic": "propositional",
+      "semantics": "classical-propositional-v1",
+      "domain": null,
+      "budget": null,
+      "premises": [
+        "p"
+      ],
+      "conclusion": "q",
+      "outcome": "witness_found",
+      "backend": "dpll-v1",
+      "finite_model": null,
+      "assignment": {
+        "p": true,
+        "q": false
+      },
+      "validation": {
+        "validator": "original-ast-v1",
+        "premise_values": [
+          true
+        ],
+        "conclusion_value": false,
+        "status": "formal_witness_verified"
+      },
+      "solver_evidence": null
+    }
+  ]
+}

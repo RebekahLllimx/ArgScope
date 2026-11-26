@@ -1,0 +1,79 @@
+{
+  "schema_version": "argument-draft-v1",
+  "title": "Authored implication control",
+  "summary": "A complete API example of modus ponens.",
+  "provider": "documentation-authored-control-v1",
+  "provenance": "Project-authored documentation fixture; not a model output or human approval.",
+  "readings": [
+    {
+      "id": "control",
+      "summary": "Given p implies q and p, infer q.",
+      "nodes": [
+        {
+          "id": "P1",
+          "content": "If p then q.",
+          "role": "premise",
+          "speaker": "Project fixture author",
+          "commitment": "author_position",
+          "source_refs": [
+            {
+              "source_id": "main",
+              "start": 0,
+              "end": 12,
+              "quote": "If p then q."
+            }
+          ],
+          "depends_on": [],
+          "rationale": "Explicit authored control; no original-paper interpretation is asserted."
+        },
+        {
+          "id": "P2",
+          "content": "p holds.",
+          "role": "premise",
+          "speaker": "Project fixture author",
+          "commitment": "author_position",
+          "source_refs": [
+            {
+              "source_id": "main",
+              "start": 13,
+              "end": 21,
+              "quote": "p holds."
+            }
+          ],
+          "depends_on": [],
+          "rationale": "Explicit authored control; no original-paper interpretation is asserted."
+        },
+        {
+          "id": "C",
+          "content": "Therefore q holds.",
+          "role": "inference",
+          "speaker": "Project fixture author",
+          "commitment": "author_position",
+          "source_refs": [
+            {
+              "source_id": "main",
+              "start": 22,
+              "end": 40,
+              "quote": "Therefore q holds."
+            }
+          ],
+          "depends_on": [
+            "P1",
+            "P2"
+          ],
+          "rationale": "Explicit authored control; no original-paper interpretation is asserted."
+        }
+      ],
+      "target": "C",
+      "qualifications": [],
+      "formal_mapping": {
+        "formulas": {
+          "P1": "p -> q",
+          "P2": "p",
+          "C": "q"
+        },
+        "rationale": "p and q denote the two fixture propositions."
+      }
+    }
+  ]
+}

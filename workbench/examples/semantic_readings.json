@@ -1,0 +1,152 @@
+{
+  "schema_version": "reconstruction-v2",
+  "reconstruction_id": "semantic-review-controls",
+  "parent_revision": null,
+  "source": {
+    "key": "conditional-control",
+    "version": "v1",
+    "kind": "authored_control",
+    "text": "Assume that p implies q and that q holds. Does p follow? The notation \"p\" is mentioned here, not asserted.",
+    "locator": "Project-authored control, paragraph 1",
+    "reference_url": null
+  },
+  "readings": [
+    {
+      "id": "control-reading",
+      "summary": "Authored formal control: the selected conclusion does not follow from the supplied assumptions.",
+      "origin": "deliberate_mutation_control",
+      "semantics": "classical-propositional-v1",
+      "nodes": [
+        {
+          "id": "P1",
+          "formula": "p -> q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "P2",
+          "formula": "q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "S1",
+          "formula": "p",
+          "role": "inference",
+          "speaker": "Project control author",
+          "commitment": "mutation_control",
+          "scope": "Selected inference only",
+          "depends_on": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "target": "S1",
+      "senses": [
+        {
+          "id": "proposition-p",
+          "label": "Proposition p",
+          "description": "The proposition assigned to p in this formal control.",
+          "grounds": "Explicit symbol convention; this does not establish the meaning of a natural-language term."
+        }
+      ],
+      "occurrences": [
+        {
+          "id": "p-in-conditional",
+          "node_id": "P1",
+          "start": 12,
+          "end": 13,
+          "surface": "p",
+          "sense_id": "proposition-p",
+          "context": "object_language"
+        }
+      ],
+      "qualifications": [],
+      "bridges": [
+        {
+          "id": "conditional-assumption",
+          "node_id": "P1",
+          "rationale": "The conditional is explicitly supplied as a premise of the control.",
+          "source_basis": "Project-authored input; not an inference about a classic author."
+        }
+      ]
+    },
+    {
+      "id": "quotation-boundary-control",
+      "summary": "Boundary control: a quotation annotation requires semantics that the Boolean kernel does not implement.",
+      "origin": "deliberate_mutation_control",
+      "semantics": "classical-propositional-v1",
+      "nodes": [
+        {
+          "id": "P1",
+          "formula": "p -> q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "P2",
+          "formula": "q",
+          "role": "premise",
+          "speaker": "Project control author",
+          "commitment": "user_assumption",
+          "scope": "Explicit assumption of this reconstruction",
+          "depends_on": []
+        },
+        {
+          "id": "S1",
+          "formula": "p",
+          "role": "inference",
+          "speaker": "Project control author",
+          "commitment": "mutation_control",
+          "scope": "Selected inference only",
+          "depends_on": [
+            "P1",
+            "P2"
+          ]
+        }
+      ],
+      "target": "S1",
+      "senses": [
+        {
+          "id": "proposition-p",
+          "label": "Proposition p",
+          "description": "The proposition assigned to p in this formal control.",
+          "grounds": "Explicit symbol convention; this does not establish the meaning of a natural-language term."
+        }
+      ],
+      "occurrences": [
+        {
+          "id": "quoted-p",
+          "node_id": "P1",
+          "start": 71,
+          "end": 72,
+          "surface": "p",
+          "sense_id": "proposition-p",
+          "context": "quotation"
+        }
+      ],
+      "qualifications": [
+        {
+          "id": "quotation-1",
+          "node_id": "P1",
+          "kind": "quotation",
+          "description": "This occurrence mentions the symbol rather than asserting its content.",
+          "representation": "unencoded",
+          "abstraction_rationale": null
+        }
+      ],
+      "bridges": []
+    }
+  ],
+  "reviews": []
+}

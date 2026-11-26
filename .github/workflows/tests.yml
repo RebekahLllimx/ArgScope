@@ -1,0 +1,66 @@
+name: Tests and portable release
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-release:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    env:
+      PYTHONPATH: workbench:argscope:falsifylab:sourcelens
+      PYTHONNOUSERSITE: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+      REVIEW_TEST_KV_ROOT: ${{ github.workspace }}/vendor/kv_server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: pip
+          cache-dependency-path: workbench/requirements-review.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: sourcelens/web/package-lock.json
+      - name: Install runtime and test dependencies
+        run: |
+          python -m pip install -r workbench/requirements-review.txt pytest==7.1.2
+          python -m pip check
+          npm ci --prefix sourcelens/web
+      - name: Build both interfaces
+        run: |
+          npm run build --prefix sourcelens/web
+          node sourcelens/web/node_modules/vite/bin/vite.js build --config workbench/review_web/vite.config.mjs
+      - name: Regression and formal controls (no inference)
+        run: |
+          python -m pytest -q argscope/tests
+          python -m pytest -q falsifylab/tests
+          python -m pytest -q sourcelens/tests
+          python -m pytest -q workbench/tests
+          python workbench/tools/check_reference_cases.py
+      - name: Build and validate the portable release
+        run: |
+          python workbench/tools/build_review_mvp.py --output "$RUNNER_TEMP/delivery/ArgScope"
+          python workbench/tools/check_release.py --root "$RUNNER_TEMP/delivery/ArgScope"
+      - name: Install test browser
+        run: node sourcelens/web/node_modules/playwright/cli.js install --with-deps chromium
+      - name: Exercise the extracted ZIP and restart
+        run: python workbench/tools/verify_release.py --archive "$RUNNER_TEMP/delivery/ArgScope.zip" --output "$RUNNER_TEMP/acceptance"
+      - name: Retain release and acceptance evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: argscope-${{ matrix.os }}-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/delivery/ArgScope.zip
+            ${{ runner.temp }}/acceptance/**/*.json
+            ${{ runner.temp }}/acceptance/**/*.log
+            ${{ runner.temp }}/acceptance/**/*.png

@@ -1,0 +1,34 @@
+{
+  "schema_version": "research-case-v1",
+  "source": {
+    "key": "nagel-1974-perspective-and-scope",
+    "version": "catalog-v1",
+    "kind": "authored_paraphrase",
+    "text": "Do not report physicalism as refuted merely because the reconstructed text records an explanatory gap.",
+    "locator": "Printed pp. 439-442, especially notes 6 and 8; p. 446 on the conclusion about physicalism",
+    "reference_url": "https://philosophy.uconn.edu/wp-content/uploads/sites/365/2020/03/Nagel-What-is-it-like-to-be-a-bat.pdf"
+  },
+  "reading": {
+    "id": "nagel-1974-perspective-and-scope-reading",
+    "speaker": "Thomas Nagel",
+    "commitment": "author_position",
+    "summary": "Do not report physicalism as refuted merely because the reconstructed text records an explanatory gap.",
+    "review": {
+      "status": "draft",
+      "reviewer": "unassigned",
+      "rationale": "Imported design requirement; requires source-fidelity review. Mutation control: Strengthening a qualified explanatory conclusion into an unrestricted impossibility or falsity claim must be identified as a changed argument."
+    }
+  },
+  "claim": {
+    "id": "nagel-1974-perspective-and-scope-review-target",
+    "origin": "source_reconstruction",
+    "semantics": "conceptual-case-review-v1",
+    "premises": [
+      "Preserve the experiencer and the perspective from which a description is understood.",
+      "Distinguish first-person understanding from externally available physical description.",
+      "Preserve qualifications concerning current explanatory understanding.",
+      "Distinguish an epistemic or explanatory difficulty from the falsity of an ontological thesis."
+    ],
+    "conclusion": "No numerical or Boolean assignment alone adjudicates the phenomenological claim; unsupported semantics remain review-required."
+  }
+}

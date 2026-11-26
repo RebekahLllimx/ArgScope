@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "argument-research-workbench"
+dynamic = ["version"]
+description = "Source-linked argument checks and independently validated replay bundles"
+requires-python = ">=3.10"
+dependencies = ["argscope==0.1.0", "falsifylab==0.1.0"]
+
+[project.scripts]
+argument-workbench = "workbench.legacy.cli:main"
+argument-review = "workbench.review_app:main"
+
+[project.optional-dependencies]
+review = [
+  "fastapi>=0.162,<1",
+  "uvicorn>=0.49,<1",
+  "pydantic>=2.11,<3",
+  "langgraph>=1.2,<2",
+  "langgraph-checkpoint-sqlite>=3.1,<4",
+  "sourcelens==0.1.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["workbench*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "workbench.version.__version__"}

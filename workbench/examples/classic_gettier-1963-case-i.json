@@ -1,0 +1,34 @@
+{
+  "schema_version": "research-case-v1",
+  "source": {
+    "key": "gettier-1963-case-i",
+    "version": "catalog-v1",
+    "kind": "authored_paraphrase",
+    "text": "Preserve the difference between the valid embedded deduction and the challenge to a proposed sufficient condition for knowledge.",
+    "locator": "Printed pp. 121-122: initial assumptions and Case I",
+    "reference_url": "https://fitelson.org/proseminar/gettier.pdf"
+  },
+  "reading": {
+    "id": "gettier-1963-case-i-reading",
+    "speaker": "Edmund L. Gettier",
+    "commitment": "author_position",
+    "summary": "Preserve the difference between the valid embedded deduction and the challenge to a proposed sufficient condition for knowledge.",
+    "review": {
+      "status": "draft",
+      "reviewer": "unassigned",
+      "rationale": "Imported design requirement; requires source-fidelity review. Mutation control: A reconstruction that makes justification factive changes the source assumptions and must be flagged."
+    }
+  },
+  "claim": {
+    "id": "gettier-1963-case-i-review-target",
+    "origin": "source_reconstruction",
+    "semantics": "conceptual-case-review-v1",
+    "premises": [
+      "Separate actual-world truth from a subject's belief and justification.",
+      "Record the evidence and inference supporting a belief.",
+      "Track which object makes an existential description true.",
+      "Attribute the proposed knowledge analysis to the target view, not to Gettier's conclusion."
+    ],
+    "conclusion": "Never count a free assignment of Knowledge=false as discovery of a conceptual counterexample; knowledge attribution needs a declared interpretive judgment or reviewed case label."
+  }
+}

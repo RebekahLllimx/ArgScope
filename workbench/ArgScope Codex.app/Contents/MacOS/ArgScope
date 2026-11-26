@@ -1,0 +1,3 @@
+#!/bin/zsh
+launch_dir="${0:A:h:h:h:h}"
+exec /usr/bin/open -a Terminal "$launch_dir/Launch Codex.command"

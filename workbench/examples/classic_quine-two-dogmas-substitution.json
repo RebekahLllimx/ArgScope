@@ -1,0 +1,34 @@
+{
+  "schema_version": "research-case-v1",
+  "source": {
+    "key": "quine-two-dogmas-substitution",
+    "version": "catalog-v1",
+    "kind": "authored_paraphrase",
+    "text": "Do not assume that creating one concept identifier establishes cognitive synonymy.",
+    "locator": "Sections I-III, especially the definition and interchangeability discussions",
+    "reference_url": "https://www.ditext.com/quine/quine.html"
+  },
+  "reading": {
+    "id": "quine-two-dogmas-substitution-reading",
+    "speaker": "W. V. Quine",
+    "commitment": "author_position",
+    "summary": "Do not assume that creating one concept identifier establishes cognitive synonymy.",
+    "review": {
+      "status": "draft",
+      "reviewer": "unassigned",
+      "rationale": "Imported design requirement; requires source-fidelity review. Mutation control: Applying an object-language synonym substitution inside a quotation or a different compound must be flagged for review."
+    }
+  },
+  "claim": {
+    "id": "quine-two-dogmas-substitution-review-target",
+    "origin": "source_reconstruction",
+    "semantics": "conceptual-case-review-v1",
+    "premises": [
+      "Distinguish sameness of reference or extension from synonymy.",
+      "Distinguish stipulative definitions from claims about established usage.",
+      "Preserve quotation and compound-expression boundaries during substitution.",
+      "Treat a concept mapping as an interpretation requiring grounds, not an automatic philosophical solution."
+    ],
+    "conclusion": "Search over stated admissible readings, not arbitrary changes of meaning chosen solely to make the argument fail."
+  }
+}

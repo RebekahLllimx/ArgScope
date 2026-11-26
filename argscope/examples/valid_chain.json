@@ -1,0 +1,6 @@
+{
+  "title": "From a requirement to a supported conclusion",
+  "symbols": {"p": "The request is authorized", "q": "The operation is permitted", "r": "The result may be published"},
+  "premises": [{"id":"P1","formula":"p -> q"},{"id":"P2","formula":"p"},{"id":"P3","formula":"q -> r"}],
+  "steps": [{"id":"S1","formula":"q","depends_on":["P1","P2"]},{"id":"S2","formula":"r","depends_on":["S1","P3"]}]
+}
