@@ -50,7 +50,7 @@ PUBLIC_DOC_FILES = {
         'kv-aof-rewrite-20261124.json', 'scoped-review-20261124.json',
     )),
 }
-EXTENSIONS = {'.py', '.md', '.json', '.toml', '.txt', '.html', '.jsx', '.js', '.cjs', '.mjs', '.css', '.png', '.svg', '.yml', '.yaml'}
+EXTENSIONS = {'.py', '.md', '.json', '.toml', '.txt', '.html', '.jsx', '.js', '.cjs', '.mjs', '.css', '.png', '.svg', '.yml', '.yaml', '.woff2', '.woff', '.ttf'}
 BOOTSTRAP = '''"""Start the packaged application using only this release's source and KV."""
 import os
 from pathlib import Path

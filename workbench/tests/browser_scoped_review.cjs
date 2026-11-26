@@ -50,11 +50,13 @@ const {chromium} = createRequire(path.resolve(__dirname, '../../sourcelens/web/p
         await page.getByLabel('Formula scope rationale',{exact:true}).fill(fixture.draft.readings[index].formal_scope.rationale);
       }
       await page.getByRole('button',{name:'Select graph node n3',exact:true}).click();
+      await page.locator('.structure-input > summary').click();
       const dependency=page.getByLabel('Dependency n5 into n3',{exact:true});
       await dependency.uncheck(); await dependency.check();
       await page.getByLabel('Approve the displayed formal mapping',{exact:true}).check();
       await page.getByLabel('Confirm formula-only scope',{exact:true}).check();
       const formula=page.getByLabel('Formula n3',{exact:true});
+      await page.locator('.formula-input > summary').click();
       const finalFormula=fixture.draft.readings[1].formal_mapping.formulas.n3;
       await formula.fill(finalFormula==='exists x. H(x)' ? 'exists x. M(x)' : 'exists x. H(x)');
       await page.waitForFunction(()=>!document.querySelector('input[aria-label="Confirm formula-only scope"]').checked);

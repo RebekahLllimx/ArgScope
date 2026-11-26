@@ -41,6 +41,7 @@ jobs:
           node sourcelens/web/node_modules/vite/bin/vite.js build --config workbench/review_web/vite.config.mjs
       - name: Regression and formal controls (no inference)
         run: |
+          node --test workbench/tests/frontend_formula.test.mjs
           python -m pytest -q argscope/tests
           python -m pytest -q falsifylab/tests
           python -m pytest -q sourcelens/tests

@@ -257,6 +257,34 @@ const { chromium } = createRequire(
       null,
     );
     assert.equal(await page.locator(".graph-guide").getAttribute("open"), null);
+    for (const selector of [
+      ".analysis-question",
+      ".reading-overview",
+      ".source-metadata",
+      ".formula-input",
+      ".structure-input",
+      ".mapping-input",
+    ])
+      assert.equal(await page.locator(selector).getAttribute("open"), null);
+    assert.equal(await page.locator(".selected-formula .katex").count(), 1);
+    assert.equal(await page.locator(".graph-card-body .katex").count(), 3);
+    await page.locator(".formula-input > summary").click();
+    const formula = page.getByLabel("Formula C", { exact: true });
+    const originalFormula = await formula.inputValue();
+    await formula.fill("~(");
+    assert.equal(
+      await page.locator(".selected-formula .formula-fallback").innerText(),
+      "~(",
+    );
+    await formula.fill("<img src=x onerror=alert(1)>");
+    assert.equal(await page.locator(".selected-formula img").count(), 0);
+    assert.equal(
+      await page.locator(".selected-formula .formula-fallback").innerText(),
+      "<img src=x onerror=alert(1)>",
+    );
+    await formula.fill(originalFormula);
+    await page.locator(".selected-formula .katex").waitFor();
+    await page.locator(".formula-input > summary").click();
     await page.locator(".node-details > summary").click();
     await page.getByLabel("Speaker P1", { exact: true }).waitFor();
     await page.locator(".node-details > summary").click();
@@ -322,6 +350,9 @@ const { chromium } = createRequire(
         empty_submit_blocked: true,
         new_review_resets_form: true,
         controls_retained: true,
+        math_typeset: true,
+        safe_formula_fallback: true,
+        concise_review_disclosures: true,
         page_errors: errors,
         external_requests: external,
         model_calls: 0,

@@ -694,7 +694,10 @@ function App() {
               <section className="run-heading">
                 <div>
                   <h1>{run.request.sources[0].title}</h1>
-                  <p>{run.request.question}</p>
+                  <details className="analysis-question">
+                    <summary>Analysis question</summary>
+                    <p>{run.request.question}</p>
+                  </details>
                 </div>
                 <Badge tone={run.status === "succeeded" ? "green" : "amber"}>
                   {labels[run.status] || run.status}
@@ -795,8 +798,7 @@ function App() {
                       <h2>Source</h2>
                       {run.request.sources.map((s) => (
                         <div key={s.id}>
-                          <h3>{s.title}</h3>
-                          <span className="source-version">{s.version}</span>
+                          {run.request.sources.length > 1 && <h3>{s.title}</h3>}
                           <blockquote>{s.text}</blockquote>
                           {s.reference_url && (
                             <a
@@ -807,6 +809,11 @@ function App() {
                               Reference ↗
                             </a>
                           )}
+                          <details className="source-metadata">
+                            <summary>Source details</summary>
+                            <p>{s.title}</p>
+                            <p>{s.version}</p>
+                          </details>
                         </div>
                       ))}
                     </aside>
@@ -820,12 +827,6 @@ function App() {
                             <Badge>Revised</Badge>
                           )}
                         </div>
-                        {draft.summary !== reading?.summary && (
-                          <details className="reading-overview">
-                            <summary>Overview</summary>
-                            <p>{draft.summary}</p>
-                          </details>
-                        )}
                         {draft.readings.length > 1 && (
                           <label>
                             Reading
@@ -844,7 +845,13 @@ function App() {
                             </select>
                           </label>
                         )}
-                        <p>{reading?.summary}</p>
+                        <details className="reading-overview">
+                          <summary>Reading notes</summary>
+                          <p>{reading?.summary}</p>
+                          {draft.summary !== reading?.summary && (
+                            <p>{draft.summary}</p>
+                          )}
+                        </details>
                         <ArgumentGraph
                           reading={reading}
                           editable={editable}

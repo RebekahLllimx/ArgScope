@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import Formula from "./Formula.jsx";
+
+const CARD = { width: 304, height: 176, columnGap: 36, rowGap: 32, margin: 16 };
 
 export default function ArgumentGraph({ reading, editable, onChange }) {
   const [selected, setSelected] = useState(reading?.target || "");
@@ -24,10 +27,17 @@ export default function ArgumentGraph({ reading, editable, onChange }) {
     const col = depth(node.id),
       row = rows[col] || 0;
     rows[col] = row + 1;
-    positions[node.id] = { x: 20 + col * 240, y: 20 + row * 110 };
+    positions[node.id] = {
+      x: CARD.margin + col * (CARD.width + CARD.columnGap),
+      y: CARD.margin + row * (CARD.height + CARD.rowGap),
+    };
   }
-  const width = 240 * (Math.max(0, ...Object.values(depths)) + 1);
-  const height = 110 * Math.max(1, ...Object.values(rows));
+  const columns = Math.max(0, ...Object.values(depths)) + 1;
+  const rowCount = Math.max(1, ...Object.values(rows));
+  const width =
+    CARD.margin * 2 + columns * CARD.width + (columns - 1) * CARD.columnGap;
+  const height =
+    CARD.margin * 2 + rowCount * CARD.height + (rowCount - 1) * CARD.rowGap;
   function changeNode(patch) {
     onChange({
       ...reading,
@@ -53,9 +63,8 @@ export default function ArgumentGraph({ reading, editable, onChange }) {
         <svg
           viewBox={`0 0 ${width} ${height}`}
           style={{
-            width: "100%",
-            minWidth: Math.max(350, width),
-            minHeight: 180,
+            width,
+            height,
           }}
           role="group"
           aria-label="Directed argument graph"
@@ -79,10 +88,13 @@ export default function ArgumentGraph({ reading, editable, onChange }) {
               .map((id) => {
                 const from = positions[id],
                   to = positions[n.id];
+                const startX = from.x + CARD.width,
+                  startY = from.y + CARD.height / 2,
+                  endY = to.y + CARD.height / 2;
                 return (
                   <path
                     key={`${id}-${n.id}`}
-                    d={`M ${from.x + 200} ${from.y + 35} C ${from.x + 220} ${from.y + 35}, ${to.x - 20} ${to.y + 35}, ${to.x} ${to.y + 35}`}
+                    d={`M ${startX} ${startY} C ${startX + CARD.columnGap / 2} ${startY}, ${to.x - CARD.columnGap / 2} ${endY}, ${to.x} ${endY}`}
                     fill="none"
                     stroke="#7e90a1"
                     strokeWidth="2"
@@ -112,8 +124,8 @@ export default function ArgumentGraph({ reading, editable, onChange }) {
                 <rect
                   x={x}
                   y={y}
-                  width="200"
-                  height="80"
+                  width={CARD.width}
+                  height={CARD.height}
                   rx="6"
                   fill={n.id === current?.id ? "#e9eff5" : "#fff"}
                   stroke={
@@ -129,113 +141,144 @@ export default function ArgumentGraph({ reading, editable, onChange }) {
                   {n.id} · {n.role}
                   {n.id === reading.target ? " · target" : ""}
                 </text>
-                <text x={x + 12} y={y + 44} fontSize="15" fill="#1c2938">
-                  {(formulas[n.id] || "No formula").slice(0, 24)}
-                </text>
-                <text x={x + 12} y={y + 65} fontSize="13" fill="#526173">
-                  {n.content.slice(0, 27)}
-                  {n.content.length > 27 ? "…" : ""}
-                </text>
+                <foreignObject
+                  x={x + 12}
+                  y={y + 32}
+                  width={CARD.width - 24}
+                  height={CARD.height - 44}
+                >
+                  <div className="graph-card-body">
+                    <Formula
+                      value={formulas[n.id]}
+                      semantics={reading.formal_mapping?.semantics}
+                    />
+                    <p>{n.content}</p>
+                  </div>
+                </foreignObject>
               </g>
             );
           })}
         </svg>
       </div>
       {current && (
-        <fieldset disabled={!editable}>
+        <fieldset
+          className="selected-node"
+          key={current.id}
+          disabled={!editable}
+        >
           <legend>Selected node: {current.id}</legend>
           <p>{current.content}</p>
-          <label>
-            Formula {current.id}
-            <input
-              aria-label={`Formula ${current.id}`}
-              value={formulas[current.id] || ""}
-              onChange={(e) =>
-                onChange({
-                  ...reading,
-                  formal_mapping: {
-                    ...(reading.formal_mapping || {
-                      rationale:
-                        "Reader-defined propositional mapping; confirm symbol meanings before checking.",
-                    }),
-                    formulas: { ...formulas, [current.id]: e.target.value },
-                  },
-                })
-              }
+          <div
+            className="selected-formula"
+            aria-label={`Rendered formula ${current.id}`}
+          >
+            <Formula
+              value={formulas[current.id]}
+              semantics={reading.formal_mapping?.semantics}
             />
-          </label>
-          <label>
-            Node role
-            <select
-              aria-label={`Node role ${current.id}`}
-              value={current.role}
-              onChange={(e) =>
-                changeNode({
-                  role: e.target.value,
-                  depends_on:
-                    e.target.value === "premise" ? [] : current.depends_on,
-                })
-              }
-            >
-              <option value="premise">Premise</option>
-              <option value="inference">Inference</option>
-            </select>
-          </label>
-          <fieldset disabled={current.role !== "inference"}>
-            <legend>Joint dependencies for {current.id}</legend>
-            {reading.nodes
-              .filter((n) => n.id !== current.id)
-              .map((n) => (
-                <label className="checkbox" key={n.id}>
-                  <input
-                    type="checkbox"
-                    aria-label={`Dependency ${n.id} into ${current.id}`}
-                    checked={current.depends_on.includes(n.id)}
-                    onChange={(e) =>
-                      changeNode({
-                        depends_on: e.target.checked
-                          ? [...current.depends_on, n.id]
-                          : current.depends_on.filter((id) => id !== n.id),
-                      })
-                    }
-                  />
-                  {n.id} · {n.content.slice(0, 70)}
-                </label>
-              ))}
-          </fieldset>
-          <label>
-            Target inference
-            <select
-              aria-label="Target inference"
-              value={reading.target}
-              onChange={(e) => onChange({ ...reading, target: e.target.value })}
-            >
-              {reading.nodes
-                .filter((n) => n.role === "inference")
-                .map((n) => (
-                  <option key={n.id} value={n.id}>
-                    {n.id}
-                  </option>
-                ))}
-            </select>
-          </label>
-          {reading.formal_mapping && (
+          </div>
+          <details className="formula-input">
+            <summary>Edit formula</summary>
             <label>
-              Symbol meanings and mapping scope
-              <textarea
-                aria-label="Symbol meanings and mapping scope"
-                value={reading.formal_mapping.rationale}
+              Formula {current.id}
+              <input
+                aria-label={`Formula ${current.id}`}
+                value={formulas[current.id] || ""}
                 onChange={(e) =>
                   onChange({
                     ...reading,
                     formal_mapping: {
-                      ...reading.formal_mapping,
-                      rationale: e.target.value,
+                      ...(reading.formal_mapping || {
+                        rationale:
+                          "Reader-defined propositional mapping; confirm symbol meanings before checking.",
+                      }),
+                      formulas: { ...formulas, [current.id]: e.target.value },
                     },
                   })
                 }
               />
             </label>
+          </details>
+          <details className="structure-input">
+            <summary>Edit argument structure</summary>
+            <label>
+              Node role
+              <select
+                aria-label={`Node role ${current.id}`}
+                value={current.role}
+                onChange={(e) =>
+                  changeNode({
+                    role: e.target.value,
+                    depends_on:
+                      e.target.value === "premise" ? [] : current.depends_on,
+                  })
+                }
+              >
+                <option value="premise">Premise</option>
+                <option value="inference">Inference</option>
+              </select>
+            </label>
+            <fieldset disabled={current.role !== "inference"}>
+              <legend>Joint dependencies for {current.id}</legend>
+              {reading.nodes
+                .filter((n) => n.id !== current.id)
+                .map((n) => (
+                  <label className="checkbox" key={n.id}>
+                    <input
+                      type="checkbox"
+                      aria-label={`Dependency ${n.id} into ${current.id}`}
+                      checked={current.depends_on.includes(n.id)}
+                      onChange={(e) =>
+                        changeNode({
+                          depends_on: e.target.checked
+                            ? [...current.depends_on, n.id]
+                            : current.depends_on.filter((id) => id !== n.id),
+                        })
+                      }
+                    />
+                    {n.id} · {n.content.slice(0, 70)}
+                  </label>
+                ))}
+            </fieldset>
+            <label>
+              Target inference
+              <select
+                aria-label="Target inference"
+                value={reading.target}
+                onChange={(e) =>
+                  onChange({ ...reading, target: e.target.value })
+                }
+              >
+                {reading.nodes
+                  .filter((n) => n.role === "inference")
+                  .map((n) => (
+                    <option key={n.id} value={n.id}>
+                      {n.id}
+                    </option>
+                  ))}
+              </select>
+            </label>
+          </details>
+          {reading.formal_mapping && (
+            <details className="mapping-input">
+              <summary>Symbol meanings and scope</summary>
+              <label>
+                Symbol meanings and mapping scope
+                <textarea
+                  aria-label="Symbol meanings and mapping scope"
+                  value={reading.formal_mapping.rationale}
+                  onChange={(e) =>
+                    onChange({
+                      ...reading,
+                      formal_mapping: {
+                        ...reading.formal_mapping,
+                        rationale: e.target.value,
+                      },
+                    })
+                  }
+                />
+              </label>
+            </details>
           )}
         </fieldset>
       )}

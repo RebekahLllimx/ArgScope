@@ -311,6 +311,24 @@ reader acts. Collapsing a panel does not remove its data from saved reviews or
 exports. The responsive browser check covers both interfaces at 1440, 390 and
 320 pixels, including page overflow, readable labels and disclosure controls.
 
+Formulas in graph cards and the selected-node panel use locally bundled KaTeX,
+including CSS and fonts, with MathML alongside the visual notation. The display
+adapter tokenizes the existing solver notation, retains every explicit parenthesis
+and quantifier-scope dot, and escapes literal identifier underscores. It emits
+only fixed TeX operators and escaped names; raw input is never accepted as TeX.
+Resource limits and disabled trusted commands bound rendering. Empty formulas
+stay empty, and unsupported or incomplete text falls back to escaped, editable
+text. Formatting is independent of validation: Python remains the authority on
+syntax, binding, arity, semantics and proof results. Stored formulas and exports
+retain the exact original strings.
+
+The source, graph, selected claim and typeset formula stay visible. Analysis
+questions, source metadata, reading notes, formula input, structure controls and
+mapping explanations open on demand. These disclosures preserve the source
+versions and interpretation boundaries without repeating them above every claim.
+Review confirmations and formula-only exclusions remain at their existing action
+points. KaTeX attribution is in the [third-party notices](../../sourcelens/web/THIRD_PARTY_NOTICES.md).
+
 ### HTTP and execution boundaries
 
 [API_REFERENCE.md](API_REFERENCE.md) specifies the HTTP contract. POSTs require

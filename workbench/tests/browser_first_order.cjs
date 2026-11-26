@@ -108,12 +108,47 @@ const { chromium } = createRequire(
       "no_counterexample_complete",
     );
     assert.equal(state.candidate_checks[0].human_approved, false);
+    const originalFormula = state.draft.readings[0].formal_mapping.formulas.C;
+    assert.equal(
+      await page
+        .locator(".selected-formula .formula")
+        .getAttribute("data-formula"),
+      originalFormula,
+    );
+    assert.equal(await page.locator(".selected-formula math").count(), 1);
+    assert.equal(await page.locator(".graph-card-body math").count(), 2);
+    assert.match(
+      await page.locator(".selected-formula annotation").textContent(),
+      /\\forall/,
+    );
+    await page.evaluate(() => document.fonts.ready);
+    assert(
+      await page.evaluate(() => document.fonts.check("18px KaTeX_Main")),
+      "Bundled math fonts must load",
+    );
+    await page
+      .getByRole("button", { name: "Select graph node P1", exact: true })
+      .focus();
+    await page.keyboard.press("Enter");
+    assert.equal(
+      await page
+        .locator(".selected-formula .formula")
+        .getAttribute("data-formula"),
+      state.draft.readings[0].formal_mapping.formulas.P1,
+    );
+    await page
+      .getByRole("button", { name: "Select graph node C", exact: true })
+      .click();
     for (const [width, height, label] of [
       [1440, 1100, "desktop"],
       [390, 844, "mobile"],
+      [320, 760, "narrow"],
     ]) {
       await page.setViewportSize({ width, height });
-      await page.evaluate(() => window.scrollTo(0, 0));
+      await page.evaluate(() => {
+        document.activeElement?.blur?.();
+        window.scrollTo(0, 0);
+      });
       assert(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
@@ -123,6 +158,8 @@ const { chromium } = createRequire(
         path: path.join(shots, "quine-fol-" + label + ".png"),
         fullPage: label === "desktop",
       });
+      if (label === "desktop")
+        await page.screenshot({ path: path.join(shots, "quine-overview.png") });
       if (label === "mobile") {
         await page
           .getByRole("heading", {
@@ -141,6 +178,12 @@ const { chromium } = createRequire(
         await page.screenshot({
           path: path.join(shots, "quine-fol-mobile-checks.png"),
           fullPage: false,
+        });
+      }
+      if (label !== "desktop") {
+        await page.locator(".selected-formula").scrollIntoViewIfNeeded();
+        await page.screenshot({
+          path: path.join(shots, "quine-formula-" + label + ".png"),
         });
       }
     }

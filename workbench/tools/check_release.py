@@ -80,6 +80,16 @@ def validate(root, manifest=True):
                 continue
             if not (page.parent / target.lstrip('/')).is_file():
                 errors.append('missing frontend asset: ' + target)
+        for css in page.parent.rglob('*.css'):
+            for target in re.findall(r'url\(\s*[\x22\x27]?([^\s\x22\x27)]+)', css.read_text()):
+                if target.startswith('data:'):
+                    continue
+                if target.startswith(('http:', 'https:', '//')):
+                    errors.append('external frontend CSS asset: ' + target)
+                    continue
+                asset = (page.parent / target.lstrip('/') if target.startswith('/') else css.parent / target).resolve()
+                if not asset.is_relative_to(page.parent) or not asset.is_file():
+                    errors.append('missing/outside frontend CSS asset: ' + target)
     kv = root / 'vendor/kv_server'
     pinned = json.loads((kv / 'MANIFEST.json').read_text())
     for name, wanted in pinned['files'].items():

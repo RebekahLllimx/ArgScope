@@ -14,6 +14,13 @@ export default defineConfig({
     outDir: path("../workbench/review_web"),
     emptyOutDir: true,
     assetsDir: "review-assets",
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("/node_modules/katex/")) return "math";
+        },
+      },
+    },
   },
   server: { host: "127.0.0.1", proxy: { "/api": "http://127.0.0.1:8767" } },
 });

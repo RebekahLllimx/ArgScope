@@ -64,6 +64,13 @@ class ReleaseTests(unittest.TestCase):
         self.assertFalse(out.exists())
         self.assertFalse(out.with_suffix('.zip').exists())
 
+    def test_missing_bundled_math_font_is_rejected(self):
+        candidate = self.copy('missing-math-font')
+        font = next((candidate / 'workbench/workbench/review_web/review-assets').glob('*.woff2'))
+        font.unlink()
+        with self.assertRaisesRegex(ValueError, 'frontend CSS asset'):
+            validate(candidate, manifest=False)
+
     def test_private_or_symlinked_curated_input_is_rejected(self):
         candidate = self.copy('private-input')
         path = candidate / 'workbench/docs/private.env'

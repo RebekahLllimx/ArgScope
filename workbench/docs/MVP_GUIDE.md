@@ -41,10 +41,12 @@ copying a prepared environment does not make it portable.
    negative-description example and choose “Use example.”
 2. Generate the review. This offline mode supplies an explicitly authored
    reconstruction; the workflow, KV child, logic checks and saved review are real.
-3. Select graph nodes and inspect formulas, source quotations and dependencies.
-   Incoming edges form one joint premise set.
-4. Edit the formulas/dependencies/target in the graph panel, or use validated JSON
-   for complete reconstruction changes. Unsaved edits hide stale candidate results.
+3. Select a graph node to read its complete, typeset formula. “Symbol meanings
+   and scope” contains the declared mapping; “Claims and sources” contains exact
+   quotations. Incoming edges form one joint premise set.
+4. Open “Edit formula” for the solver's text notation, or “Edit argument
+   structure” for dependencies and the target. Use validated JSON for complete
+   reconstruction changes. Unsaved edits hide stale candidate results.
 5. Record your own judgments, label and rationale. Explicitly approve the mapping
    only if you endorse it. No approval is selected by default.
 6. Finish, inspect the result and export JSON or script-free HTML.
@@ -59,6 +61,12 @@ formula-only scope at submission. The result retains excluded qualifications.
 
 Changing a formula does not automatically update its explanation or quotations.
 Global term-ID editing and automatic sense-split propagation are not implemented.
+
+The graph and selected-node formula use mathematical typography offline.
+The editor and exports retain the original notation, such as `~p -> q` or
+`forall x. (W(x) -> Q(x))`. Incomplete or unsupported input stays visible as
+text; the formal check validates syntax when submitted. Open “Reading notes,”
+“Analysis question” or “Source details” for the saved context.
 
 ## Reader feedback and saved versions
 
