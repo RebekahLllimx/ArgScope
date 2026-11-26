@@ -1,13 +1,17 @@
 # ArgScope Research Workbench
 
-ArgScope helps readers reconstruct an argument from a selected philosophy passage,
-edit its premises and dependencies, and check whether a declared conclusion follows.
-It keeps the source text, proposed interpretation, formal mapping and reader's
-judgments together in a saved, inspectable review.
+ArgScope turns philosophical passages into editable argument graphs. An LLM
+proposes premises, conclusions and reasoning steps; readers can inspect source
+quotations, revise the interpretation, and check formalized inferences with
+DPLL and Z3.
 
-The application combines a React interface, a resumable LangGraph workflow,
-propositional and restricted first-order logic tools, a source library, and a
-custom key-value service for tool exchange. It runs locally on macOS or Linux.
+Returned countermodels are checked against the original formulas. Version history
+lets readers compare alternative reconstructions, preserve edits and judgments,
+and resume a review across application restarts.
+
+The application includes a React graph editor, resumable LangGraph workflows,
+a source library, and a custom RESP/TCP key-value service for tool requests and
+results. SQLite retains argument versions, review records and workflow checkpoints.
 
 ## See the workflow
 
@@ -18,8 +22,8 @@ compare saved versions, and export the resulting review.
 
 ![Argument graph and formula editor](workbench/docs/assets/review.png)
 
-The screenshot uses an explicitly authored control with no model call.
-The Quine and Chalmers examples also run offline. Live providers accept the
+An authored example in the graph and formula editor. The Quine and Chalmers
+examples run offline; a configured model can reconstruct arguments from the
 reader's own passage and question.
 
 ```mermaid
@@ -32,13 +36,13 @@ flowchart LR
     H --> F[Formal check and portable report]
 ```
 
-An exact quotation establishes its location; the reader assesses its use.
-A formal result concerns the declared formulas and assumptions. These distinctions
-are visible in the interface and retained in exported reports.
+The interface separates source attribution, interpretation and formal results.
+Readers confirm the mapping from a passage to formulas; exported reports retain
+the formulas and assumptions behind each check.
 
 ## Run an offline example
 
-Use Python 3.10 or 3.11. From the project root:
+Use Python 3.10 or 3.11 on macOS or Linux. From the project root:
 
 ```bash
 python3.10 -m venv .venv
@@ -85,9 +89,8 @@ for the offline examples and required for new model-generated reconstructions.
 - One requested model revision, immutable saved versions, field comparison,
   process-restart recovery, and JSON/HTML export form one workflow.
 
-Global concept IDs and automatic propagation of a term-sense split are not yet
-implemented. Symbol meanings currently reside in the mapping explanation and
-formulas, which the reader edits together.
+Symbol meanings are recorded in the mapping explanation alongside the formulas.
+Readers can edit both when comparing interpretations.
 
 ## Architecture and technical choices
 
@@ -97,7 +100,7 @@ formulas, which the reader edits together.
 | One checkpoint authority | LangGraph owns execution position; a separate archive owns content and receipts. Restart does not reconstruct a competing cursor from display events. |
 | Content-bound review | Draft hashes, expected-version checks and preview freshness prevent an old approval or calculation from surviving an edit. |
 | Separate logic backends | DPLL suits propositional structure; quantified uniqueness requires first-order semantics. Finite witnesses receive an independent AST check; UNSAT evidence still trusts Z3. |
-| Durable SQLite plus expiring KV | SQLite retains reviews. KV transfers immutable inputs/results to supervised child tools and holds memo pointers. This adds a process/expiry boundary; no speed advantage over SQLite alone is claimed. |
+| Durable SQLite plus expiring KV | SQLite retains reviews across restarts. KV transfers immutable inputs and results to supervised child tools; expiring a transport entry leaves the durable review intact. |
 | Bounded sequential model roles | One generation is enough to begin reader review. Optional critique/revision reuses one configured provider, with explicit attempt limits and no automatic provider fallback. |
 
 The [engineering design](workbench/docs/ENGINEERING_DESIGN.md) explains the
