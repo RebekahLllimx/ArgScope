@@ -41,6 +41,7 @@ PUBLIC_DOC_FILES = {
     'workbench/docs/examples/request.json',
     'workbench/docs/examples/draft.json',
     'workbench/docs/assets/review.png',
+    'workbench/docs/assets/start.png',
     'workbench/docs/assets/library.png',
     'workbench/docs/assets/versions.png',
     *(f'workbench/docs/evidence/{name}' for name in (

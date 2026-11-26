@@ -130,6 +130,7 @@ def verify(archive, output, python=sys.executable):
                 return json.loads(done.stdout)
             server, base = launch('demo', temp / 'library-data')
             result['library'] = browser('browser_release_library.cjs', base, output / 'library')
+            result['interface'] = browser('browser_interface.cjs', base, output / 'interface')
             stop(server); server = None
             server, base = launch('demo', temp / 'status-data')
             result['status_order'] = browser('browser_status_order.cjs', base, output / 'status-order')

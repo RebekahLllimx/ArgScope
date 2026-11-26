@@ -293,6 +293,26 @@ performance experiment establishes a speed advantage.
 
 ## 8. Interfaces, limits and security
 
+### Interface layout
+
+The argument editor and source library share one typography and colour theme.
+New reviews start with empty source and question fields. The optional example
+picker fills them only after an explicit load action. Starting another review
+resets the form without deleting archived runs; loading connection settings and
+example metadata does not overwrite text already entered by the reader.
+Desktop setup places the passage beside the question and generation settings;
+the review workspace places the source beside the argument graph. Narrow screens
+stack these areas and collapse saved history into a keyboard-operable disclosure.
+
+Claim details, graph instructions, content identifiers and execution records are
+available on demand. The active example/live mode, errors, model-request cost
+notice, review judgments and formal-scope confirmations remain visible where the
+reader acts. Collapsing a panel does not remove its data from saved reviews or
+exports. The responsive browser check covers both interfaces at 1440, 390 and
+320 pixels, including page overflow, readable labels and disclosure controls.
+
+### HTTP and execution boundaries
+
 [API_REFERENCE.md](API_REFERENCE.md) specifies the HTTP contract. POSTs require
 JSON, reject duplicate keys/nonfinite numbers and limit ordinary review bodies
 to 200,000 bytes; packet verification permits 2,000,000 bytes. Host/Origin guards
@@ -353,6 +373,7 @@ structure. It does not authenticate a reviewer or check a live source library.
 | A stale KV pointer is treated as a result | Digest/version/input validation in [shared transport](../workbench/review/shared.py) | Corruption, expiry and actual child tests |
 | Translation error produces a false countermodel | Original-AST evaluator in [FOL adapter](../workbench/review/first_order.py) and [propositional tools](../../falsifylab/falsifylab/search.py) | [FOL tests](../tests/test_first_order.py), six [formula controls](evidence/reference_checks.json) |
 | A late HTTP response replaces newer state | Browser watch-generation/request ordering and coherent API status reads | Forced ordering browser test and service-state regressions |
+| A narrow screen hides controls or shrinks graph labels | Shared theme, scrollable graph canvas and keyboard-operable disclosures | [Responsive interface check](../tests/browser_interface.cjs) at 1440, 390 and 320 pixels |
 | A release needs files from the development machine | Explicit selection, pinned KV, rebuilt UIs and extracted startup | [Release tests](../tests/test_release.py) and [extracted verifier](../tools/verify_release.py) |
 
 A changed formula in the Quine example exercises several boundaries together:

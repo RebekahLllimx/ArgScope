@@ -49,6 +49,7 @@ const { chromium } = createRequire(
   };
   const start = async (example) => {
     await page.getByRole("button", { name: /New argument review/ }).click();
+    await page.getByText("Try an example", { exact: true }).click();
     await page
       .getByLabel("Example or original passage", { exact: true })
       .selectOption(example);
@@ -61,8 +62,10 @@ const { chromium } = createRequire(
         r.request().method() === "POST",
     );
     // This retained scenario explicitly exercises the optional critique loop.
-    if (await page.getByLabel("Generation workflow", {exact:true}).count())
-      await page.getByLabel("Generation workflow", {exact:true}).selectOption("bounded_review");
+    if (await page.getByLabel("Generation workflow", { exact: true }).count())
+      await page
+        .getByLabel("Generation workflow", { exact: true })
+        .selectOption("bounded_review");
     await page.getByRole("button", { name: /Run demo review/ }).click();
     const created = await response;
     assert.equal(created.status(), 202, await created.text());
@@ -111,9 +114,10 @@ const { chromium } = createRequire(
   try {
     await page.goto(base);
     await page.getByRole("button", { name: /Run demo review/ }).waitFor();
+    await page.getByText("Example mode", { exact: true }).waitFor();
     assert.match(
       await page.locator(".mode-banner").innerText(),
-      /No live language model/,
+      /Example mode/,
     );
     await page.screenshot({
       path: path.join(shots, "mvp-start-desktop.png"),
@@ -182,6 +186,7 @@ const { chromium } = createRequire(
             (button) => button.textContent === "Apply validated JSON changes",
           )?.disabled === true,
       );
+      await page.locator(".node-details > summary").click();
       await page
         .getByLabel("Speaker P1", { exact: true })
         .fill("Human-reviewed source voice");
@@ -193,7 +198,10 @@ const { chromium } = createRequire(
         path: path.join(shots, "mvp-review-desktop.png"),
         fullPage: true,
       });
-      await page.screenshot({path: path.join(shots, "review-overview.png"), fullPage: false});
+      await page.screenshot({
+        path: path.join(shots, "review-overview.png"),
+        fullPage: false,
+      });
       await page.setViewportSize({ width: 390, height: 844 });
       await page.evaluate(() => window.scrollTo(0, 0));
       assert(
@@ -218,7 +226,7 @@ const { chromium } = createRequire(
       .click();
     await page
       .getByRole("heading", {
-        name: "What this report establishes",
+        name: "Formal checks and review",
         exact: true,
       })
       .waitFor();

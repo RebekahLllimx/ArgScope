@@ -35,19 +35,18 @@ export default function VersionComparison({ run }) {
   return (
     <details className="panel version-history">
       <summary>Saved versions and comparison ({versions.length})</summary>
-      <p>
-        Compare saved drafts. Local unsaved edits are excluded. Differences do not
-        establish that a revision is better.
-      </p>
       {versions.some((version) => version.origin === "legacy_current") && (
         <p>Older workflow: only the current saved draft is indexed here.</p>
       )}
       <ol>
         {versions.map((version, index) => (
           <li key={version.ref}>
-            Version {index + 1} · {version.origin.replaceAll("_", " ")} {" "}
+            Version {index + 1} · {version.origin.replaceAll("_", " ")}{" "}
             {version.ref === run.draft_ref ? "· current" : ""}
-            <small className="hash">{version.ref}</small>
+            <details className="version-identity">
+              <summary>Identifier</summary>
+              <code className="hash">{version.ref}</code>
+            </details>
           </li>
         ))}
       </ol>
@@ -76,7 +75,8 @@ export default function VersionComparison({ run }) {
       {result && (
         <>
           <p aria-live="polite">
-            {result.changes.length} changed fields or structures
+            {result.changes.length}{" "}
+            {result.changes.length === 1 ? "change" : "changes"}
           </p>
           {result.changes.map((change, index) => (
             <article className="version-change" key={index}>

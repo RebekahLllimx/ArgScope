@@ -37,7 +37,8 @@ copying a prepared environment does not make it portable.
   --port 8767 --open-browser
 ```
 
-1. Select Quine's negative-description example and choose “Use example.”
+1. The new-review form starts empty. Open “Try an example,” select Quine's
+   negative-description example and choose “Use example.”
 2. Generate the review. This offline mode supplies an explicitly authored
    reconstruction; the workflow, KV child, logic checks and saved review are real.
 3. Select graph nodes and inspect formulas, source quotations and dependencies.

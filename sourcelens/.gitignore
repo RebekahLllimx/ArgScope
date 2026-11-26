@@ -6,7 +6,7 @@ __pycache__/
 coverage.xml
 htmlcov/
 node_modules/
-web/dist/
+# Built interface assets are versioned with the portable workspace.
 var/
 outputs/
 .DS_Store

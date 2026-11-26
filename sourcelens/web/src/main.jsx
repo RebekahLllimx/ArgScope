@@ -6,6 +6,7 @@ import { api, json, METHODS } from "./api";
 import ImportDialog from "./components/ImportDialog";
 
 const STAGES = ["plan", "retrieve", "assess", "compose", "done"];
+const EMBEDDED = window.location.pathname === "/library";
 
 function App() {
   const [documents, setDocuments] = useState([]);
@@ -151,21 +152,31 @@ function App() {
   return (
     <div className="app-shell">
       <header className="topbar">
-        <a className="brand" href="/" aria-label="SourceLens home">
+        <a
+          className="brand"
+          href="/"
+          aria-label={EMBEDDED ? "ArgScope home" : "SourceLens home"}
+        >
           <span className="brand-mark" aria-hidden="true">
-            S
+            {EMBEDDED ? "A" : "S"}
           </span>
-          SourceLens
+          {EMBEDDED ? "ArgScope" : "SourceLens"}
         </a>
-        <div className="top-description">
-          Document research, grounded in sources
-        </div>
-        <span className="local-label">Local workspace</span>
+        <nav className="app-links" aria-label="Application">
+          {EMBEDDED && <a href="/">Arguments</a>}
+          <a
+            href={EMBEDDED ? "/library" : "/"}
+            aria-label="Source library"
+            aria-current="page"
+          >
+            Sources
+          </a>
+        </nav>
       </header>
       <div className="workspace">
         <aside className="library">
           <div className="section-heading">
-            <h2>Library</h2>
+            <h2>Documents</h2>
             <span className="count">{documents.length}</span>
           </div>
           <button
@@ -174,10 +185,6 @@ function App() {
           >
             Import document
           </button>
-          <p className="library-hint">
-            Markdown, text or PDF. Import the same document key to add a
-            version.
-          </p>
           <div className="document-list">
             {documents.map((document) => (
               <article className="document" key={document.id}>
@@ -200,10 +207,7 @@ function App() {
           </div>
           {!documents.length && (
             <div className="library-empty">
-              <p>
-                Start with your documents or explore three engineering reference
-                notes.
-              </p>
+              <p>No documents yet.</p>
               <button
                 className="text-button"
                 disabled={busy}
@@ -213,10 +217,6 @@ function App() {
               </button>
             </div>
           )}
-          <div className="library-foot">
-            <strong>Sources stay on this computer.</strong>
-            <p>No model service or external fetch is used.</p>
-          </div>
         </aside>
         <main>
           <nav className="tabs" aria-label="Workspace views">
@@ -246,21 +246,11 @@ function App() {
           {tab !== "history" ? (
             <>
               <div className="intro">
-                <p className="eyebrow">
-                  {tab === "research"
-                    ? "Evidence workspace"
-                    : "Retrieval explorer"}
-                </p>
                 <h1>
                   {tab === "research"
-                    ? "Follow the evidence."
-                    : "Find the right passage."}
+                    ? "Search your sources"
+                    : "Search passages"}
                 </h1>
-                <p>
-                  {tab === "research"
-                    ? "Ask a technical question. Inspect exact excerpts and the source versions behind them."
-                    : "Compare keyword, vector and fused rankings against the same document library."}
-                </p>
               </div>
               <form className="question-form" onSubmit={submit}>
                 <label htmlFor="question">
@@ -353,15 +343,18 @@ function App() {
                   {report && (
                     <>
                       <div className="report-heading">
-                        <p className="eyebrow">Source excerpts</p>
                         <h2>{report.question}</h2>
-                        <p>
-                          {report.status === "insufficient_evidence"
-                            ? "No matching evidence was found in this library snapshot."
-                            : report.status === "partial_evidence"
-                              ? "Evidence found for some parts of the question."
-                              : "Matching passages, ready to inspect."}
-                        </p>
+                        {["insufficient_evidence", "partial_evidence"].includes(
+                          report.status,
+                        ) && (
+                          <p>
+                            {report.status === "insufficient_evidence"
+                              ? "No matching evidence was found in this library snapshot."
+                              : report.status === "partial_evidence"
+                                ? "Evidence found for some parts of the question."
+                                : null}
+                          </p>
+                        )}
                       </div>
                       {report.outdated_sources > 0 && (
                         <div className="notice">
@@ -448,11 +441,11 @@ function App() {
                           </div>
                         </section>
                       ))}
-                      <p className="report-note">
-                        {report.citations.length
-                          ? "Excerpts are copied from the cited passages. Relevance and interpretation remain visible for your review."
-                          : "Add a source that covers this question, or try more specific technical terms."}
-                      </p>
+                      {!report.citations.length && (
+                        <p className="report-note">
+                          Add a relevant source or try different search terms.
+                        </p>
+                      )}
                     </>
                   )}
                 </section>
@@ -487,39 +480,11 @@ function App() {
                   ))}
                 </section>
               )}
-              {!job && tab === "research" && (
-                <div className="starter">
-                  <h2>From question to inspectable evidence</h2>
-                  <div>
-                    <article>
-                      <h3>Versioned sources</h3>
-                      <p>
-                        Update a document without breaking citations in older
-                        reports.
-                      </p>
-                    </article>
-                    <article>
-                      <h3>Visible retrieval</h3>
-                      <p>
-                        Inspect the passages selected by each retrieval method.
-                      </p>
-                    </article>
-                    <article>
-                      <h3>Saved progress</h3>
-                      <p>
-                        Resume a research run from its last committed stage.
-                      </p>
-                    </article>
-                  </div>
-                </div>
-              )}
             </>
           ) : (
             <section className="history">
               <div className="intro">
-                <p className="eyebrow">Saved work</p>
-                <h1>Recent research.</h1>
-                <p>Each run retains the source versions it searched.</p>
+                <h1>Recent research</h1>
               </div>
               {!runs.length && <p>No research runs yet.</p>}
               {runs.map((run) => (
@@ -578,11 +543,16 @@ function App() {
                 ? "Page " + evidence.page
                 : "Lines " + evidence.line_start + "–" + evidence.line_end}
             </dd>
-            <dt>Content SHA-256</dt>
-            <dd className="digest">{evidence.digest}</dd>
-            <dt>Chunk identifier</dt>
-            <dd className="digest">{evidence.id}</dd>
           </dl>
+          <details>
+            <summary>Technical identifiers</summary>
+            <dl>
+              <dt>Content SHA-256</dt>
+              <dd className="digest">{evidence.digest}</dd>
+              <dt>Chunk identifier</dt>
+              <dd className="digest">{evidence.id}</dd>
+            </dl>
+          </details>
           {evidence.source_url && (
             <a href={evidence.source_url} target="_blank" rel="noreferrer">
               Open source link
@@ -599,7 +569,10 @@ function App() {
             </button>
           </div>
           <h2>{versions.document.title}</h2>
-          <p className="muted">Document key: {versions.document.source_key}</p>
+          <details>
+            <summary>Document identifier</summary>
+            <code className="digest">{versions.document.source_key}</code>
+          </details>
           <button
             className="button secondary"
             onClick={() => {
@@ -620,7 +593,10 @@ function App() {
                 {row.is_current ? "Current" : "Earlier version"} ·{" "}
                 {new Date(row.created_at * 1000).toLocaleString()}
               </p>
-              <p className="digest">{row.digest}</p>
+              <details>
+                <summary>Identifier</summary>
+                <code className="digest">{row.digest}</code>
+              </details>
             </article>
           ))}
         </aside>

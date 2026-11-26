@@ -33,6 +33,7 @@ const { chromium } = createRequire(
     (await page.request.get(base + "/api/argument-runs/" + id)).json();
   async function start(id) {
     await page.getByRole("button", { name: /New argument review/ }).click();
+    await page.getByText("Try an example", { exact: true }).click();
     await page
       .getByLabel("Example or original passage", { exact: true })
       .selectOption(id);
@@ -91,9 +92,10 @@ const { chromium } = createRequire(
   try {
     await page.goto(base);
     await page.getByRole("button", { name: /Run demo review/ }).waitFor();
+    await page.getByText("Example mode", { exact: true }).waitFor();
     assert.match(
       await page.locator(".mode-banner").innerText(),
-      /No live language model/,
+      /Example mode/,
     );
     const quine = await start("quine-description-first-order");
     let state = await read(quine);

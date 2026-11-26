@@ -20,11 +20,12 @@ shows its graph and candidate checks, and pauses for the reader. The reader can
 edit formulas and joint premises, add an explicit assumption, request one revision,
 compare saved versions, and export the resulting review.
 
-![Argument graph and formula editor](workbench/docs/assets/review.png)
+![New argument workspace](workbench/docs/assets/start.png)
 
-An authored example in the graph and formula editor. The Quine and Chalmers
-examples run offline; a configured model can reconstruct arguments from the
-reader's own passage and question.
+The workspace opens with empty source and question fields. “Try an example”
+loads an authored reading only when selected; a configured model can reconstruct
+arguments from the reader's own passage and question. The
+[Quine example](workbench/docs/assets/review.png) shows the graph and formula editor.
 
 ```mermaid
 flowchart LR

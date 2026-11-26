@@ -27,9 +27,9 @@ process.chdir(path.resolve(__dirname, ".."));
   const errors = [];
   page.on("pageerror", (error) => errors.push(error.message));
   try {
-    await page.goto(base);
+    await page.goto(base + (process.env.SOURCELENS_PAGE_PATH || "/"));
     await page
-      .getByRole("heading", { name: "Follow the evidence." })
+      .getByRole("heading", { name: "Search your sources" })
       .waitFor({ timeout: 10000 });
     const existing = await (
       await page.request.get(base + "/api/documents")
