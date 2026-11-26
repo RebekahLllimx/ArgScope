@@ -25,9 +25,10 @@ compare saved versions, and export the resulting review.
 ![Quine example: source passage, argument graph and formula editor](workbench/docs/assets/review.png)
 
 The example examines whether denying a unique author means no author, or also
-permits multiple authors. The source passage stays on the left; the editable
-premises, conclusion and formula controls are on the right. Selecting a graph
-node opens its formula and joint dependencies.
+permits multiple authors. The source passage stays on the left; the argument
+graph and typeset formulas are on the right. Select a graph node to read its
+complete formula. Open “Edit formula” or “Edit argument structure” to change the
+saved text notation and joint dependencies.
 
 New reviews open with empty source and question fields. This optional offline
 example supplies an authored reconstruction and uses the application's normal
