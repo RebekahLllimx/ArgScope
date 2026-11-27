@@ -6,7 +6,7 @@ Its main engineering problem is keeping interpretation, calculation and review
 consistent while drafts change, model calls fail, cache entries expire and
 processes restart.
 
-The current product is version 0.7.0. The [technical report](FINAL_REPORT.md)
+The current product is version 0.7.1. The [technical report](FINAL_REPORT.md)
 contains worked cases and measured results; [setup and use](MVP_GUIDE.md) covers
 installation and operation.
 
@@ -267,6 +267,45 @@ SQLite is the durable authority. Archived content can be verified and republishe
 after TTL expiry. Expiring a transport value does not erase a review or permit
 a previously accepted result to bypass input validation.
 
+### Ordered always-mode commits
+
+The bundled [KV manifest](../../vendor/kv_server/MANIFEST.json) pins the
+`always-group-commit-v1` runtime from
+[KV Server commit 415f5a6](https://github.com/RebekahLllimx/kv-server/tree/415f5a62b7975b48a26f74833c153f6bb7303582).
+The manifest binds the full upstream commit and all ten runtime-file hashes;
+the snapshot is bundled without a network fetch at installation. Its
+[coordinator](../../vendor/kv_server/commit.py) owns admission, condition checks
+and publication. At most 256 outstanding requests and 8 MiB of input bytes are
+accepted, including the active batch. Full capacity returns BUSY before
+admission; that submission does not execute.
+
+Ready requests form natural batches of at most 32 requests and 4 MiB of encoded
+effects, without a timer. A changed-key overlay lets later conditions observe
+earlier effects. One append/flush/fsync precedes publication and success
+responses. GET/TTL use the same order, so they can wait for earlier writes and
+cannot expose an unsynchronized result. Grouping changes the I/O unit, not the
+atomicity of separate commands or the AOF record format.
+
+A socket timeout or cancellation cannot withdraw admitted work. Storage failure
+can leave an unacknowledged effect on disk; the client must not infer rollback
+or automatically retry a conditional operation. These errors remain transport
+failures, separate from the SQLite archive and its reusable completed-operation
+receipts.
+
+The [managed session](../../falsifylab/tools/serve_research_kv.py) uses the KV
+runtime's service supervisor. Persistence failure closes admission and the
+listener; shutdown drains accepted work before cancelling remaining clients and
+releasing file ownership. Both runtime drain and the parent process wait warn
+after five seconds and continue waiting. External forced termination invokes
+crash recovery instead of graceful-drain semantics.
+
+[Session regressions](../tests/test_kv_session_lifecycle.py) exercise confirmed
+record recovery and a real injected-fsync failure, including service exit
+without a success response. The KV project's independent tests cover batch
+dependencies, capacity, partial writes, cancellation and recovery boundaries.
+The application uses the runtime's existing client protocol; this change does
+not establish an application throughput gain.
+
 ### Retention and growth
 
 The managed KV runs active expiration every second, reclaiming unread expired
@@ -380,6 +419,7 @@ structure. It does not authenticate a reviewer or check a live source library.
 | Archive before KV publication | Publish first; repeat generation on every transport failure | Reuse a completed paid operation after publication failure. Pre-receipt crashes remain uncertain. |
 | SQLite archive plus TTL transport | SQLite-only tools; KV-only history | Preserve durable review while exercising process-local transport and expiry. The extra service is not justified by a measured speedup. |
 | Source-layout release | Reorganized export with rewritten paths | Keep import roots, native launchers and relative links consistent. Both UIs and pinned KV must be selected and validated together. |
+| Ordered group commits in managed KV | Per-write Store lock held across each fsync | Share one sync across ready work while retaining ordered conditions and durable responses. Reads can wait, and a single client pays coordination overhead. |
 
 ## 10. Design contributions and their evidence
 

@@ -1,12 +1,11 @@
-from store import Store
-
 from response import (
-    SimpleString,
     BulkString,
     Error,
-    NullBulkString,
     Integer,
+    NullBulkString,
+    SimpleString,
 )
+from store import Store
 
 
 async def execute_command(command: list[bytes], store: Store):
@@ -48,7 +47,9 @@ async def execute_command(command: list[bytes], store: Store):
             seconds, _ = parse_options(command[4:])
         except ValueError:
             return Error(b"ERR invalid CAS options")
-        return Integer(await store.compare_set(command[1], command[2], command[3], seconds=seconds))
+        return Integer(
+            await store.compare_set(command[1], command[2], command[3], seconds=seconds)
+        )
 
     elif command_name == b"CAD":
         if len(command) != 3:
@@ -61,7 +62,7 @@ async def execute_command(command: list[bytes], store: Store):
             return Error(b"ERR wrong number of arguments for GET")
 
         key = command[1]
-        value = store.get(key)
+        value = await store.get_for_command(key)
 
         if value is None:
             return NullBulkString()
@@ -86,8 +87,6 @@ async def execute_command(command: list[bytes], store: Store):
         key = command[1]
         seconds_bytes = command[2]
 
-        
-        
         if seconds_bytes.startswith(b"-"):
             digits = seconds_bytes[1:]
         else:
@@ -96,12 +95,18 @@ async def execute_command(command: list[bytes], store: Store):
         if not digits or not digits.isdigit():
             return Error(b"ERR invalid expire time")
 
+        if seconds_bytes.startswith(b"-"):
+            seconds = -1  # Every nonpositive value has the same DEL effect.
+        else:
+            significant = digits.lstrip(b"0")
+            if len(significant) > 20:
+                return Error(b"ERR invalid expire time")
+            seconds = int(significant or b"0")
+
         try:
-            seconds = int(seconds_bytes)
+            result = await store.expire(key, seconds)
         except ValueError:
             return Error(b"ERR invalid expire time")
-
-        result = await store.expire(key, seconds)
 
         return Integer(result)
 
@@ -111,7 +116,7 @@ async def execute_command(command: list[bytes], store: Store):
             return Error(b"ERR wrong number of arguments for TTL")
 
         key = command[1]
-        remaining = store.ttl(key)
+        remaining = await store.ttl_for_command(key)
 
         return Integer(remaining)
 
@@ -125,7 +130,7 @@ def parse_options(options, conditional=False):
     while index < len(options):
         name = options[index].upper()
         if name == b"EX" and seconds is None and index + 1 < len(options):
-            raw = options[index+1]
+            raw = options[index + 1]
             if not raw.isdigit() or len(raw) > 10:
                 raise ValueError("Invalid expiry")
             seconds = int(raw)

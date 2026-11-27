@@ -1,18 +1,20 @@
+import argparse
 import asyncio
+import logging
+import signal
 
+from aof import AOF, AOFError
 from server import handle_client
 from store import Store
-from aof import AOF, AOFError
-
 
 AOF_SYNC_POLICY = "everysec"
 AOF_PATH = "data/append.aof"
+SERVER_PORT = 6379
 
 
-async def expiration_loop(
-    store: Store,
-    interval_seconds: float = 1.0
-):
+async def expiration_loop(store: Store, interval_seconds: float = 1.0):
+    if interval_seconds <= 0:
+        raise ValueError("Expiration interval must be positive")
     while True:
         await asyncio.sleep(interval_seconds)
 
@@ -22,8 +24,38 @@ async def expiration_loop(
             print(f"Active expiration removed {removed_count} keys")
 
 
+async def run_until_signal(service):
+    """Cancel one service owner on SIGINT/SIGTERM, then await its cleanup."""
+    loop = asyncio.get_running_loop()
+    owner = asyncio.create_task(service, name="kv-service-owner")
+    stopping = False
+
+    def stop():
+        nonlocal stopping
+        if not stopping:
+            stopping = True
+            owner.cancel()
+        else:
+            logging.getLogger(__name__).warning("KV shutdown is already draining")
+
+    signals = (signal.SIGINT, signal.SIGTERM)
+    previous = {number: signal.getsignal(number) for number in signals}
+    try:
+        for number in signals:
+            loop.add_signal_handler(number, stop)
+        try:
+            await owner
+        except asyncio.CancelledError:
+            if not stopping:
+                raise
+    finally:
+        for number, handler in previous.items():
+            loop.remove_signal_handler(number)
+            signal.signal(number, handler)
+
+
 async def main():
-    
+
     aof_failure_event = asyncio.Event()
     aof_failure_reason = {"error": None}
 
@@ -34,24 +66,22 @@ async def main():
 
         aof_failure_event.set()
 
-    
     aof = AOF(
         AOF_PATH,
         sync_policy=AOF_SYNC_POLICY,
         on_failure=notify_aof_failure,
     )
 
-    
     store = Store()
 
     # Replay before attaching persistence to avoid logging replay effects.
     aof.load(store)
     store.attach_aof(aof)
 
-    
     client_tasks = set()
 
     try:
+
         async def tracked_client_handler(reader, writer):
             task = asyncio.current_task()
             client_tasks.add(task)
@@ -62,12 +92,11 @@ async def main():
                 client_tasks.discard(task)
 
         server = await asyncio.start_server(
-            tracked_client_handler,
-            "127.0.0.1",
-            6379
+            tracked_client_handler, "127.0.0.1", SERVER_PORT
         )
 
-        print("Server started at 127.0.0.1:6379")
+        port = server.sockets[0].getsockname()[1]
+        print(f"Server started at 127.0.0.1:{port}", flush=True)
 
         async with server:
             await run_service(
@@ -140,24 +169,20 @@ async def run_service(
             return_when=asyncio.FIRST_COMPLETED,
         )
 
-        
         if failure_task in done:
             cause = aof_failure_reason["error"]
-            raise AOFError(
-                "AOF failed; stopping service."
-            ) from cause
+            raise AOFError("AOF failed; stopping service.") from cause
 
-        
         for task in done:
             task.result()
 
-        raise RuntimeError(
-            "A service task stopped unexpectedly."
-        )
+        raise RuntimeError("A service task stopped unexpectedly.")
 
     finally:
         # Close the listener before handling existing client tasks.
         server.close()
+        if hasattr(store, "stop_write_admission"):
+            store.stop_write_admission()
         await server.wait_closed()
 
         for task in all_tasks:
@@ -169,8 +194,12 @@ async def run_service(
             return_exceptions=True,
         )
 
+        if hasattr(store, "drain_writes"):
+            await store.drain_writes()
+
         remaining_clients = [
-            task for task in client_tasks
+            task
+            for task in client_tasks
             if task is not asyncio.current_task() and not task.done()
         ]
 
@@ -185,4 +214,14 @@ async def run_service(
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="Loopback RESP key-value server")
+    parser.add_argument(
+        "--sync", choices=("always", "everysec", "no"), default=AOF_SYNC_POLICY
+    )
+    parser.add_argument("--aof", default=AOF_PATH)
+    parser.add_argument("--port", type=int, default=SERVER_PORT)
+    args = parser.parse_args()
+    if not 0 <= args.port <= 65535:
+        parser.error("Port must be in [0,65535]")
+    AOF_SYNC_POLICY, AOF_PATH, SERVER_PORT = args.sync, args.aof, args.port
+    asyncio.run(run_until_signal(main()))

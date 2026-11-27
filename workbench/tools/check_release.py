@@ -92,6 +92,14 @@ def validate(root, manifest=True):
                     errors.append('missing/outside frontend CSS asset: ' + target)
     kv = root / 'vendor/kv_server'
     pinned = json.loads((kv / 'MANIFEST.json').read_text())
+    if pinned.get('source_repository') != 'https://github.com/RebekahLllimx/kv-server':
+        errors.append('pinned KV source repository mismatch')
+    source_commit = pinned.get('source_commit')
+    if not isinstance(source_commit, str) or not re.fullmatch(r'[0-9a-f]{40}', source_commit):
+        errors.append('pinned KV source commit must be an immutable full SHA')
+    runtime_names = {path.name for path in kv.glob('*.py') if path.is_file()}
+    if set(pinned['files']) != runtime_names:
+        errors.append('pinned KV file set mismatch')
     for name, wanted in pinned['files'].items():
         if not (kv / name).is_file() or digest(kv / name) != wanted:
             errors.append('pinned KV mismatch: ' + name)
@@ -103,7 +111,8 @@ def validate(root, manifest=True):
         if data['CFBundleShortVersionString'] != version or data['CFBundleVersion'] != version:
             errors.append('native version mismatch: ' + path.parent.parent.name)
     result = {'status': 'passed' if not errors else 'failed', 'files': len(files),
-              'links': links, 'version': version, 'kv_files': len(pinned['files']), 'errors': errors}
+              'links': links, 'version': version, 'kv_files': len(pinned['files']),
+              'kv_source_commit': source_commit, 'errors': errors}
     if errors:
         raise ValueError(json.dumps(result, ensure_ascii=False))
     return result

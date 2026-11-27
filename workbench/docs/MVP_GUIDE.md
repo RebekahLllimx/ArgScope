@@ -1,6 +1,6 @@
 # Set up and use ArgScope
 
-ArgScope 0.7.0 runs locally on macOS or Linux with Python 3.10 or 3.11.
+ArgScope 0.7.1 runs locally on macOS or Linux with Python 3.10 or 3.11.
 A portable release includes both built interfaces and the pinned KV runtime.
 A source checkout additionally needs Node 22 to rebuild the interfaces.
 
@@ -201,6 +201,23 @@ For an existing compatible loopback service, omit `--kv-root` and supply
 The runtime must support `PING`, `GET`, atomic `SET ... EX ... NX`
 and ordinary `SET ... EX`. PING alone does not establish compatibility.
 The application does not use the independent KV project's default data file.
+Managed source roots must provide the pinned runtime's service/lifecycle API;
+use `--kv-port` for another implementation that only shares the RESP protocol.
+
+The bundled runtime is pinned in `vendor/kv_server/MANIFEST.json`, including the
+full commit of the independent [KV Server repository](https://github.com/RebekahLllimx/kv-server).
+Its source is included in the package; no GitHub access is needed at startup. Managed
+sessions use always mode: success follows log synchronization and memory
+publication. Concurrent requests share bounded natural batches; GET/TTL wait in
+the same order. A full queue returns BUSY before accepting that submission.
+The [design](ENGINEERING_DESIGN.md#ordered-always-mode-commits) explains the
+limits and the unchanged RESP/effect-record format.
+
+Stopping the app closes admission and drains accepted KV operations. If a stop
+takes longer than five seconds, a warning appears and the parent keeps waiting
+for safe cleanup. Forcing termination can leave an operation with no response
+but a recoverable effect. After storage failure, inspect the session stderr and
+restart with its AOF; do not assume an unacknowledged write was rolled back.
 
 | File in the selected data directory | Purpose |
 | --- | --- |
@@ -293,9 +310,9 @@ Build both interfaces before packaging, and choose an unused output path:
 
 ```bash
 .venv/bin/python workbench/tools/build_review_mvp.py \
-  --output workbench/outputs/releases/ArgScope-0.7.0
+  --output workbench/outputs/releases/ArgScope-0.7.1
 .venv/bin/python workbench/tools/check_release.py \
-  --root workbench/outputs/releases/ArgScope-0.7.0
+  --root workbench/outputs/releases/ArgScope-0.7.1
 ```
 
 The ZIP includes source, public docs, both built interfaces and pinned KV.
@@ -314,7 +331,7 @@ drive the actual extracted application:
 
 ```bash
 .venv/bin/python workbench/tools/verify_release.py \
-  --archive workbench/outputs/releases/ArgScope-0.7.0.zip \
+  --archive workbench/outputs/releases/ArgScope-0.7.1.zip \
   --output workbench/outputs/NEW-RELEASE-ACCEPTANCE
 ```
 

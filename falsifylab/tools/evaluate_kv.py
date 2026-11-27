@@ -3,24 +3,25 @@
 Counts separate trajectory decomposition/reuse from storage choice. Timings are
 small local observations, not a universal cache speedup or scientific finding.
 """
+
 import argparse
-from contextlib import contextmanager
-from dataclasses import asdict
 import hashlib
 import json
+import logging
 import os
-from pathlib import Path
 import select
 import signal
 import statistics
 import subprocess
 import sys
 import time
+from dataclasses import asdict
+from pathlib import Path
 
 from falsifylab.experiment import Config, run_experiment
 from falsifylab.model import ModelSpec
 from falsifylab.records import read_measurement
-from falsifylab.result_store import KVStore, canonical, open_store
+from falsifylab.result_store import KVStore, open_store
 from falsifylab.trajectories import TrajectoryCache
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -75,7 +76,9 @@ class SessionServer:
                 try:
                     self.process.wait(timeout=5)
                 except subprocess.TimeoutExpired:
-                    self.process.kill()
+                    logging.getLogger(__name__).warning(
+                        "KV shutdown exceeded five seconds; waiting for commit drain"
+                    )
                     self.process.wait()
             self.process.stdout.close()
             self.stderr.close()

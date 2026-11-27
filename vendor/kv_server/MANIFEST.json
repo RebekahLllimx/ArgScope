@@ -1,20 +1,23 @@
 {
   "schema": "argscope-vendored-kv-v1",
-  "captured_on": "2026-11-26",
-  "origin": "User-owned desktop kv_server project; read-only snapshot, original retained",
-  "role": "Local managed KV runtime; no external data or conversation history copied",
+  "captured_on": "2026-11-27",
+  "origin": "KV Server",
+  "source_repository": "https://github.com/RebekahLllimx/kv-server",
+  "source_commit": "415f5a62b7975b48a26f74833c153f6bb7303582",
+  "role": "Managed loopback RESP service for expiring tool inputs and results",
+  "revision": "always-group-commit-v1",
+  "update_reason": "Bounded ordered always commits, read barriers, safe drain and invalid-input isolation",
+  "previous_manifest_sha256": "d1103accdf9901d21383f59cc1264de153893ddf040a73c8e7b7144f0f979263",
   "files": {
-    "server.py": "63cb08a656b18250a96dba55dfb054850fd855ddd07c4082b46bdd09763f6685",
-    "store.py": "e6bd72ffadeccd3b6d304f75663a4acaeba67e2a00880e014f4ee3be15fe719c",
-    "commands.py": "dd9261b9974b99b86cdb230f6c44c4b71840ec773a4eefd300ee9c1d182091d5",
+    "server.py": "2b6d6ef9f123c5b8b6741f63e9bdd009781ff4b9f152e1975a302ec26ae3f83d",
+    "store.py": "30ca402543cdce098cd8cbdb8ca60dd3fd8f84284428427fc1e3b494fd7c2aa9",
+    "commands.py": "b3e9cb879ec321cd5f1a91acd8811e621d3cdf9c225b3e14dbf217a3633a808c",
     "resp.py": "42fb7a1355df0fa0e75d21de6ac170c7ad92303940c424a0fd23eea249229042",
     "response.py": "e0b0a82d5fc1d5de7c1d3bf64483d60a8f07b9e32b22329fa3b734870293aa78",
-    "aof.py": "deaa3ef23c5fbfa46a8498ed748cf43b48caef79adf4f4ca8e1b0feee4a00716",
-    "main.py": "c15715b2db4d89706aebf80bcd2150a53a7e6e825351e3721da0bbe48c285670",
+    "aof.py": "7f1ec9d902dcd938816e13e4160457713063e9f548fa673bd3f69c380716fad9",
+    "main.py": "8ce434d8d51caabb0edf3755a7a963b35c1a9118df95a031914ff79bd2c1b1ea",
     "aof_lock.py": "4fd7eecd59df6d64892285a9c582e02017b3100bf5cf20a8628bc02283272078",
-    "rewrite_aof.py": "edecbb6bc96a7af1db70494e2f66002d1072517d419ac0ab0344ae1f7588f355"
-  },
-  "revision": "offline-aof-rewrite-v1-english",
-  "update_reason": "English source comments and docstrings; executable AST unchanged",
-  "previous_manifest_sha256": "c23a136c382cfafe7746b105cbe86c18784f923e567d5152947a4f66ffb5b533"
+    "rewrite_aof.py": "edecbb6bc96a7af1db70494e2f66002d1072517d419ac0ab0344ae1f7588f355",
+    "commit.py": "84443765c84654e7897d3b846c9e7d32fc976da7608940ff66f1d7c10359d693"
+  }
 }

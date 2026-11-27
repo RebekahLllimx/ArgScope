@@ -13,6 +13,12 @@ The application includes a React graph editor, resumable LangGraph workflows,
 a source library, and a custom RESP/TCP key-value service for tool requests and
 results. SQLite retains argument versions, review records and workflow checkpoints.
 
+The bundled [KV Server](https://github.com/RebekahLllimx/kv-server) is fixed to
+[commit 415f5a6](https://github.com/RebekahLllimx/kv-server/tree/415f5a62b7975b48a26f74833c153f6bb7303582).
+Its [dependency manifest](vendor/kv_server/MANIFEST.json) records the full commit
+and runtime-file hashes. Installation uses this snapshot without fetching the
+upstream branch.
+
 ## See the workflow
 
 A review starts with one passage and a question. The browser generates one draft,
@@ -120,7 +126,7 @@ to implementation and tests.
 
 ## Results and reproducibility
 
-The four component suites passed 233 regression tests on 26 November 2026.
+The four component suites passed 239 regression tests on 27 November 2026.
 Extracted-package acceptance exercised both interfaces, real KV/child execution,
 feedback and saved versions, process restart, and four exported-report replays.
 These checks used offline providers and simulated reviewers.

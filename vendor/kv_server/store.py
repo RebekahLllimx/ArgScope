@@ -1,13 +1,17 @@
 import asyncio
+import math
 import time
 from collections.abc import Callable
+
+from commit import CommitBusy, CommitCoordinator
 
 
 class Store:
     def __init__(
         self,
         clock: Callable[[], float] = time.monotonic,
-        wall_clock: Callable[[], float] = time.time
+        wall_clock: Callable[[], float] = time.time,
+        commit_limits=None,
     ):
         self._data: dict[bytes, bytes] = {}
         self._expires_at: dict[bytes, float] = {}
@@ -21,18 +25,42 @@ class Store:
         # Attach persistence only after recovery has populated the store.
         self._aof = None
 
-        # Lock order is Store, then AOF; condition checks and writes share this lock.
+        # The legacy write path acquires Store, then AOF. In always mode the
+        # coordinator owns state; it never acquires this legacy lock.
         self._lock = asyncio.Lock()
+        self._committer = None
+        self._commit_limits = commit_limits
 
     def attach_aof(self, aof) -> None:
-        'Attach the AOF after startup replay has completed.'
+        "Attach the AOF after startup replay has completed."
         if self._aof is not None:
             raise RuntimeError("AOF is already attached")
 
         self._aof = aof
+        if getattr(aof, "sync_policy", None) == "always":
+            self._committer = CommitCoordinator(self, aof, self._commit_limits)
+            aof.register_coordinator(self._committer)
+
+    def stop_write_admission(self):
+        if self._committer is not None:
+            self._committer.stop_admission()
+
+    async def drain_writes(self):
+        if self._committer is not None:
+            await self._committer.drain()
+
+    async def get_for_command(self, key):
+        if self._committer is not None:
+            return await self._committer.submit("GET", key)
+        return self.get(key)
+
+    async def ttl_for_command(self, key):
+        if self._committer is not None:
+            return await self._committer.submit("TTL", key)
+        return self.ttl(key)
 
     async def _append_aof(self, command: list[bytes]) -> None:
-        'Append the operation before publishing its in-memory effect.'
+        "Append the operation before publishing its in-memory effect."
         if self._aof is not None:
             await self._aof.append_async(command)
 
@@ -57,8 +85,7 @@ class Store:
         if seconds is None:
             record = [b"SET", key, value]
         else:
-            deadline = self._clock() + seconds
-            unix_ms = int((self._wall_clock() + seconds) * 1000)
+            deadline, unix_ms = self._expiration_deadline(seconds)
             record = [b"SETAT", key, value, str(unix_ms).encode("ascii")]
         await self._append_aof(record)
         self._data[key] = value
@@ -67,11 +94,30 @@ class Store:
         else:
             self._expires_at[key] = deadline
 
+    def _expiration_deadline(self, seconds, *, now=None):
+        """Validate an expiry before encoding the existing 20-digit AOF format."""
+        if type(seconds) is not int:
+            raise ValueError("Expiry must be an integer")
+        try:
+            deadline = (self._clock() if now is None else now) + seconds
+            unix_ms = int((self._wall_clock() + seconds) * 1000)
+        except (OverflowError, ValueError) as exc:
+            raise ValueError("Expiry is outside the supported timestamp range") from exc
+        if not math.isfinite(deadline) or not 0 <= unix_ms < 10**20:
+            raise ValueError("Expiry is outside the supported timestamp range")
+        return deadline, unix_ms
+
     async def set(self, key: bytes, value: bytes, *, seconds=None, condition=None):
-        if seconds is not None and (type(seconds) is not int or not 1 <= seconds <= 2147483647):
+        if seconds is not None and (
+            type(seconds) is not int or not 1 <= seconds <= 2147483647
+        ):
             raise ValueError("Invalid SET expiry")
         if condition not in (None, "NX", "XX"):
             raise ValueError("Invalid SET condition")
+        if self._committer is not None:
+            return await self._committer.submit(
+                "SET", key, value=value, seconds=seconds, condition=condition
+            )
         async with self._lock:
             exists = self.get(key) is not None
             if (condition == "NX" and exists) or (condition == "XX" and not exists):
@@ -82,8 +128,14 @@ class Store:
     async def compare_set(self, key, expected, value, *, seconds=None):
         if not isinstance(expected, bytes):
             raise ValueError("Expected value must be bytes")
-        if seconds is not None and (type(seconds) is not int or not 1 <= seconds <= 2147483647):
+        if seconds is not None and (
+            type(seconds) is not int or not 1 <= seconds <= 2147483647
+        ):
             raise ValueError("Invalid CAS expiry")
+        if self._committer is not None:
+            return await self._committer.submit(
+                "CAS", key, expected=expected, value=value, seconds=seconds
+            )
         async with self._lock:
             if self.get(key) != expected:
                 return 0
@@ -93,6 +145,8 @@ class Store:
     async def compare_delete(self, key, expected):
         if not isinstance(expected, bytes):
             raise ValueError("Expected value must be bytes")
+        if self._committer is not None:
+            return await self._committer.submit("CAD", key, expected=expected)
         async with self._lock:
             if self.get(key) != expected:
                 return 0
@@ -108,6 +162,8 @@ class Store:
         return self._data.get(key)
 
     async def delete(self, key: bytes) -> int:
+        if self._committer is not None:
+            return await self._committer.submit("DEL", key)
         async with self._lock:
             self._remove_expired_unlocked(key)
 
@@ -123,6 +179,13 @@ class Store:
             return 1
 
     async def expire(self, key: bytes, seconds: int) -> int:
+        if type(seconds) is not int:
+            raise ValueError("Expiry must be an integer")
+        if seconds > 0:
+            # Invalid client input must not become an owner-wide commit fault.
+            self._expiration_deadline(seconds)
+        if self._committer is not None:
+            return await self._committer.submit("EXPIRE", key, seconds=seconds)
         async with self._lock:
             self._remove_expired_unlocked(key)
 
@@ -138,47 +201,34 @@ class Store:
 
                 return 1
 
-            
-            monotonic_deadline = self._clock() + seconds
+            monotonic_deadline, unix_deadline_ms = self._expiration_deadline(seconds)
 
             if self._aof is not None:
                 # Persist an absolute deadline rather than a fresh TTL.
-                unix_deadline_ms = int(
-                    (self._wall_clock() + seconds) * 1000
+                await self._append_aof(
+                    [b"EXPIREAT", key, str(unix_deadline_ms).encode("ascii")]
                 )
-
-                await self._append_aof([
-                    b"EXPIREAT",
-                    key,
-                    str(unix_deadline_ms).encode("ascii")
-                ])
 
             self._expires_at[key] = monotonic_deadline
 
             return 1
 
     def restore_set(self, key: bytes, value: bytes) -> None:
-        'Apply a replay effect during single-threaded startup only.'
+        "Apply a replay effect during single-threaded startup only."
         self._data[key] = value
         self._expires_at.pop(key, None)
 
     def restore_delete(self, key: bytes) -> None:
-        'Apply a replay effect during single-threaded startup only.'
+        "Apply a replay effect during single-threaded startup only."
         self._data.pop(key, None)
         self._expires_at.pop(key, None)
 
-    def restore_expiration(
-        self,
-        key: bytes,
-        deadline_unix_ms: int
-    ) -> None:
+    def restore_expiration(self, key: bytes, deadline_unix_ms: int) -> None:
         "Convert a persisted Unix deadline into this process's monotonic clock during replay."
         if key not in self._data:
             return
 
-        remaining = (
-            deadline_unix_ms / 1000.0 - self._wall_clock()
-        )
+        remaining = deadline_unix_ms / 1000.0 - self._wall_clock()
 
         if remaining <= 0:
             self._data.pop(key, None)
@@ -204,13 +254,16 @@ class Store:
         return int(remaining)
 
     async def purge_expired(self) -> int:
+        if self._committer is not None:
+            try:
+                return await self._committer.submit("PURGE")
+            except CommitBusy:
+                return 0  # Logical expiry still holds; retry cleanup next tick.
         async with self._lock:
             now = self._clock()
 
             expired_keys = [
-                key
-                for key, expires_at in self._expires_at.items()
-                if expires_at <= now
+                key for key, expires_at in self._expires_at.items() if expires_at <= now
             ]
 
             for key in expired_keys:

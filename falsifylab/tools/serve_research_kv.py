@@ -1,28 +1,16 @@
-"""Run an isolated loopback instance of an existing, trusted KV checkout.
+"""Run an isolated loopback instance of a pinned KV checkout.
 
 Only the selected AOF is written. The server source stays read-only, and Python
-bytecode writes are disabled before importing it. This is a local research
-session launcher, not a copied server or a distributed cache service.
+bytecode writes are disabled before importing it. The KV runtime owns commit
+ordering, persistence failure handling and shutdown drain.
 """
+
 import argparse
 import asyncio
 import hashlib
 import json
-from pathlib import Path
 import sys
-
-
-async def expiration_loop(store, interval_seconds=1.0):
-    """Reclaim expired memory; GET/TTL alone only make old entries invisible.
-
-    This does not compact AOF history or delete durable ArgScope artifacts.
-    Cancellation and purge failures propagate to the session supervisor.
-    """
-    if interval_seconds <= 0:
-        raise ValueError("Expiration interval must be positive")
-    while True:
-        await asyncio.sleep(interval_seconds)
-        await store.purge_expired()
+from pathlib import Path
 
 
 async def serve(args):
@@ -33,17 +21,35 @@ async def serve(args):
     sys.dont_write_bytecode = True
     sys.path.insert(0, str(root))
     from aof import AOF
+    from main import run_service
     from server import handle_client
     from store import Store
 
     store = Store()
-    log = AOF(args.aof, sync_policy="always")
+    failure_event = asyncio.Event()
+    failure_reason = {"error": None}
+
+    def on_failure(error):
+        if failure_reason["error"] is None:
+            failure_reason["error"] = error
+        failure_event.set()
+
+    log = AOF(args.aof, sync_policy="always", on_failure=on_failure)
     log.load(store)
     store.attach_aof(log)
-    tasks = []
+    clients = set()
+
+    async def tracked_client(reader, writer):
+        task = asyncio.current_task()
+        clients.add(task)
+        try:
+            await handle_client(reader, writer, store)
+        finally:
+            clients.discard(task)
+
     try:
         async with await asyncio.start_server(
-            lambda reader, writer: handle_client(reader, writer, store),
+            tracked_client,
             "127.0.0.1",
             args.port,
         ) as server:
@@ -62,24 +68,31 @@ async def serve(args):
                                 "resp.py",
                                 "response.py",
                                 "aof.py",
-                                *(["aof_lock.py"] if (root / "aof_lock.py").is_file() else []),
+                                *(
+                                    ["aof_lock.py"]
+                                    if (root / "aof_lock.py").is_file()
+                                    else []
+                                ),
+                                "main.py",
+                                "commit.py",
                             )
                         },
                     }
                 ),
                 flush=True,
             )
-            tasks = [
-                asyncio.create_task(server.serve_forever()),
-                asyncio.create_task(expiration_loop(store)),
-            ]
-            await asyncio.gather(*tasks)
+            await run_service(
+                server, store, log, failure_event, failure_reason, clients
+            )
     finally:
-        for task in tasks:
-            task.cancel()
-        if tasks:
-            await asyncio.gather(*tasks, return_exceptions=True)
         await log.close_async()
+
+
+async def run(args):
+    sys.path.insert(0, str(args.kv_root.resolve()))
+    from main import run_until_signal
+
+    await run_until_signal(serve(args))
 
 
 def main():
@@ -91,7 +104,7 @@ def main():
     if args.port != 0 and not 1024 <= args.port <= 65535:
         parser.error("Use zero or a port in [1024,65535]")
     try:
-        asyncio.run(serve(args))
+        asyncio.run(run(args))
     except KeyboardInterrupt:
         pass
 

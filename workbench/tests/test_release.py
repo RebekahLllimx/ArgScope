@@ -64,6 +64,28 @@ class ReleaseTests(unittest.TestCase):
         self.assertFalse(out.exists())
         self.assertFalse(out.with_suffix('.zip').exists())
 
+    def test_unpinned_runtime_module_is_rejected(self):
+        candidate = self.copy('unpinned-runtime')
+        (candidate / 'vendor/kv_server/unpinned.py').write_text('VALUE = 1\n')
+        with self.assertRaisesRegex(ValueError, 'pinned KV file set mismatch'):
+            validate(candidate, manifest=False)
+
+    def test_upstream_identity_requires_repository_and_full_commit(self):
+        candidate = self.copy('upstream-identity')
+        path = candidate / 'vendor/kv_server/MANIFEST.json'
+        pinned = json.loads(path.read_text())
+        for field, value, error in [
+            ('source_repository', None, 'source repository mismatch'),
+            ('source_repository', 'https://example.com/other', 'source repository mismatch'),
+            ('source_commit', None, 'immutable full SHA'),
+            ('source_commit', 'main', 'immutable full SHA'),
+            ('source_commit', '415f5a6', 'immutable full SHA'),
+        ]:
+            with self.subTest(field=field, value=value):
+                path.write_text(json.dumps({**pinned, field: value}))
+                with self.assertRaisesRegex(ValueError, error):
+                    validate(candidate, manifest=False)
+
     def test_missing_bundled_math_font_is_rejected(self):
         candidate = self.copy('missing-math-font')
         font = next((candidate / 'workbench/workbench/review_web/review-assets').glob('*.woff2'))

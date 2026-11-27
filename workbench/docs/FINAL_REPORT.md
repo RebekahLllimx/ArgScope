@@ -242,11 +242,18 @@ The executable runner is [run_pilot.py](../tools/run_pilot.py).
 
 ## 8. Software acceptance
 
-The four component suites passed 233 regression tests on 26 November 2026.
+The four component suites passed 239 regression tests on 27 November 2026.
 Extracted-archive acceptance started packaged code and pinned KV, exercised both
 interfaces, feedback/versions, actual process restart and four CLI packet replays.
 Browser checks recorded no page errors or external requests. Model calls were zero;
 review judgments were test fixtures.
+
+The managed KV now pins the ordered always-mode coordinator. Additional checks
+cover restart of confirmed writes, an injected fsync failure without a success
+response, safe parent-process waiting after a soft stop deadline, and exact
+runtime-file membership and immutable upstream identity in the dependency manifest. Standalone and managed
+services share signal handling and shutdown ownership. These storage checks do
+not change the interpretation results or establish end-to-end application speedup.
 
 | Layer | What it establishes |
 | --- | --- |
@@ -298,7 +305,8 @@ IDs and automatic sense-split propagation remain future work.
 The first-order backend has bounded syntax and finite witness export, trusted
 Z3 UNSAT evidence and no modal/free-logic support. The service has one review
 worker, self-declared reviewer labels and no public multi-user authentication.
-KV speed, semantic accuracy and reader-effort improvements have not been measured.
+End-to-end KV application speedup, semantic accuracy and reader-effort
+improvements have not been measured.
 
 These limits identify separate next questions: the usefulness of the reconstruction
 to actual readers, faithful term editing, stronger proof evidence, and the cost of
